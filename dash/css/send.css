@@ -1035,6 +1035,9 @@ p.back-link {
     display: grid;
     grid-template-columns: auto auto;
     padding: 20px;
-    margin-left: 15%;
+    
+}
+button{
+    margin-left: 15px;
 }
 

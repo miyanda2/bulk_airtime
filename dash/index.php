@@ -118,14 +118,14 @@
             <!--/.row-->
         </div><br>
         <div>
-                                            <div class="col-lg-12 grid">
-                                                <div class="position-relative form-group">
-                                                    
-                                                    <select name="" class="form-control">
-                                                        <option value = '-1'>Event</option><option value='1'>                                                   </select>
-                                                </div>
-                                                 <div class="position-relative form-group">
-                                              <div class="form-group">
+            <div class="col-lg-12 grid">
+                        <div class="position-relative form-group">
+                             <select name="" class="form-control">
+                                <option value = '-1'>Event</option><option value='1'>
+                            </select>
+                        </div>
+                    <div class="position-relative form-group center">
+                <div class="form-group">
               <button class="btn btn-primary" type="submit" name="download" type="submit">Download <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
             </div>
                                                 </div><br>
