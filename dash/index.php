@@ -57,10 +57,10 @@
         </form>
         <ul class="nav menu">
             <li class="active"><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="numbers.html"><em class="fa fa-calendar">&nbsp;</em> Numbers</a></li>
+            <li><a href="numbers.html"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
             <li><a href="airtime-prov.html"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
-            <li><a href="config-msg.html"><em class="fa fa-toggle-off">&nbsp;</em> Configure Message</a></li>
-            <li><a href="send.html"><em class="fa fa-clone">&nbsp;</em> Send Airtime</a></li>
+            <li><a href="config-msg.html"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
+            <li><a href="send.html"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
 
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
