@@ -52,6 +52,7 @@ if (isset($_POST["import"])) {
 
 
                 $contcode = $validationResult['country_code'];
+                $carrier1 = $validationResult['carrier'];
 
 
             $countrycode = "";
@@ -76,7 +77,7 @@ if (isset($_POST["import"])) {
                 $phonenumber,
                 $contcode,
                 $location,
-                $carrier
+                $carrier1
                 
             );
 
@@ -230,6 +231,7 @@ $(document).ready(function() {
                                             <th scope="col">Last Name</th>
                                             <th scope="col">Phone Num</th>
                                             <th scope="col">Country Code</th>
+                                            <th scope="col">carrier</th>
                                         </tr>
                                     </thead>
                                     <?php
@@ -244,6 +246,7 @@ $(document).ready(function() {
                                             <td><?php  echo $row['last_name']; ?></td>
                                             <td><?php  echo $row['phone_number']; ?></td>
                                             <td><?php  echo $row['country_code']; ?></td>
+                                            <td><?php  echo $row['carrier']; ?></td>
                                         </tr>
                             <?php
                 }
