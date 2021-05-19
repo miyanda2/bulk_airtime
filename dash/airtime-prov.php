@@ -10,12 +10,12 @@
     <link href="css/datepicker3.css" rel="stylesheet">
     <link href="css/airtime.css" rel="stylesheet">
 
-
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
 </head>
 
 <body>
+
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -25,21 +25,15 @@
 					<span class="icon-bar"></span></button>
                 <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
                 <ul class="nav navbar-top-links navbar-right">
-
-
-
-
                 </ul>
             </div>
         </div>
-        <!-- /.container-fluid -->
     </nav>
+
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
         <div class="profile-sidebar">
-
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">Username</div>
-
             </div>
             <div class="clear"></div>
         </div>

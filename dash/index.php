@@ -1,7 +1,11 @@
 <?php
 
+// session_start();
+// if (!isset($_SESSION['username'])) {
+//     $_SESSION['msg'] = "You have to log in first";
+//     header('location: ../login.php');
 
-
+// }
 ?>
 
 <!DOCTYPE html>
@@ -31,10 +35,6 @@
 					<span class="icon-bar"></span></button>
                 <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
                 <ul class="nav navbar-top-links navbar-right">
-
-
-
-
                 </ul>
             </div>
         </div>
@@ -42,6 +42,10 @@
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
         <div class="profile-sidebar">
+
+
+    
+        
 
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">Username</div>

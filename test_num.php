@@ -1,6 +1,6 @@
 <?php
 // set API Access Key
-$access_key = 'key';
+$access_key = 'bb1eae61a7e24d7f88a2d862851305f7';
 
 // set phone number
 $phone_number = '+2348160317744';
@@ -21,4 +21,6 @@ $validationResult['valid'];
 $validationResult['country_code'];
 $validationResult['carrier'];
 
-print_r($validationResult);
+
+echo $validationResult['country_code'];
+?>

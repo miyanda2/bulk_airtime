@@ -1,3 +1,13 @@
+<?php
+
+require_once '../functions.php'; 
+   
+$db = new DataSource();
+$conn = $db->getConnection();
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -25,10 +35,6 @@
 					<span class="icon-bar"></span></button>
                 <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
                 <ul class="nav navbar-top-links navbar-right">
-
-
-
-
                 </ul>
             </div>
         </div>
@@ -83,62 +89,30 @@
 
         <div class="col-md-9 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
 
-
-
             <div class="col-md-6 col-md-6">
                 <div class="panel panel-container" id="panel">
+                    
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label class="control-label">Message</label>
-                                <textarea class="form-control white_bg" name="message" cols="20" rows="15" required></textarea>
-                            </div><br><br>
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit" name="send" type="submit">Send Message <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-                    <!--/.row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form method="post" action="process_msg.php">
+                                            
+                                                <label class="control-label">Message</label>
+                                                    <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required>Test</textarea>
+                                                    <br><br>
+                                            
+                    
+                                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
+                                                 
+                                        </form>                        
+                                    </div>
+                                </div>
                 </div>
             </div>
-            <div class="panel panel-default ">
-                <div class="row-mt-4">
-
-
-
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-
-                        </div>
-                    </div>
-                </div>
-                <!--/.row-->
-
-
-                <!--/.row-->
-
-                <!--/.col-->
-                <!-- <div class="col-sm-12">
-            <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-        </div> -->
-            </div>
-            <!--/.row-->
+            </div>  
         </div>
-        <!--/.main-->
-
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/custom.js"></script>
-
-
 </body>
-
 </html>

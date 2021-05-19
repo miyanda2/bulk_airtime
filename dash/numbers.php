@@ -26,6 +26,34 @@ if (isset($_POST["import"])) {
             if (isset($column[2])) {
                 $phonenumber = mysqli_real_escape_string($conn, $column[2]);
             }
+
+            
+                // set API Access Key
+                $access_key = 'bb1eae61a7e24d7f88a2d862851305f7';
+
+                // set phone number
+                $phone_number = $phonenumber;
+
+                // Initialize CURL:
+                $ch = curl_init('http://apilayer.net/api/validate?access_key='.$access_key.'&number='.$phone_number.'');  
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                // Store the data:
+                $json = curl_exec($ch);
+                curl_close($ch);
+
+                // Decode JSON response:
+                $validationResult = json_decode($json, true);
+
+                // Access and use your preferred validation result objects
+                $validationResult['valid'];
+                $validationResult['country_code'];
+                $validationResult['carrier'];
+
+
+                $contcode = $validationResult['country_code'];
+
+
             $countrycode = "";
             if (isset($column[3])) {
                 $countrycode = mysqli_real_escape_string($conn, $column[3]);
@@ -34,22 +62,24 @@ if (isset($_POST["import"])) {
             if (isset($column[4])) {
                 $location = mysqli_real_escape_string($conn, $column[4]);
             }
-            //  $carrier = "";
-            // if (isset($column[4])) {
-            //     $carrier = mysqli_real_escape_string($conn, $column[5]);
-            // }
+             $carrier = "";
+            if (isset($column[5])) {
+                $carrier = mysqli_real_escape_string($conn, $column[5]);
+            }
             
-            $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,location)
-                   values (?,?,?,?,?)";
-            $paramType = "sssss";
+            $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,location,carrier)
+                   values (?,?,?,?,?,?)";
+            $paramType = "ssssss";
             $paramArray = array(
                 $firstname,
                 $lastname,
                 $phonenumber,
-                $countrycode,
+                $contcode,
                 $location,
+                $carrier
                 
             );
+
             $insertId = $db->insert($sqlInsert, $paramType, $paramArray);
             
             if (! empty($insertId)) {
