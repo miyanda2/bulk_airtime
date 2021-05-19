@@ -41,14 +41,14 @@ if (isset($_POST["import"])) {
             
             $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,location)
                    values (?,?,?,?,?)";
-            $paramType = "issss";
+            $paramType = "sssss";
             $paramArray = array(
                 $firstname,
                 $lastname,
                 $phonenumber,
                 $countrycode,
                 $location,
-                // $carrier,
+                
             );
             $insertId = $db->insert($sqlInsert, $paramType, $paramArray);
             
@@ -97,7 +97,7 @@ $(document).ready(function() {
 
         <!--Custom Font-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-        <script src="jquery-3.2.1.min.js"></script>
+        <script src="js/jquery-3.2.1.min.js"></script>
     </head>
 
     <body>
