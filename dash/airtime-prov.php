@@ -8,7 +8,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/datepicker3.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/airtime.css" rel="stylesheet">
 
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -50,18 +50,18 @@
             </div>
         </form>
         <ul class="nav menu">
-            <li><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="numbers.html"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
-            <li><a href="airtime-prov.html"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
-            <li class="active"><a href="config-msg.html"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
-            <li><a href="send.html"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
+            <li><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+            <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
+            <li class="active"><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
+            <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
+            <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
 
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
     <!--/.sidebar-->
 
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
             <ol class="breadcrumb">
                 <li>
@@ -78,27 +78,32 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Configuration</h1>
             </div>
-        </div>
+        </div><br><br>
         <!--/.row-->
-
-        <div class="col-md-9 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
-
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
 
+            <div class="row">
+                <div class="col-lg-12">
+                    <select name="" class="form-control">
+                    <option value = '-1'></option><option value='1'>
+                </select>
+                </div>
+            </div><br>
+            <!--/.row-->
             <div class="col-md-6 col-md-6">
-                <div class="panel panel-container" id="panel">
+                <div class="panel panel-container">
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label class="control-label">Message</label>
-                                <textarea class="form-control white_bg" name="message" cols="20" rows="15" required></textarea>
-                            </div><br><br>
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit" name="send" type="submit">Send Message <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                            </div>
+                    <div class="row-mt-4">
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Secret Key">
                         </div>
-
+                        <div class="col-md-6">
+                            <input type="text" placeholder="API Key">
+                        </div><br><br>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Public Key">
+                        </div>
 
 
 
@@ -108,7 +113,11 @@
             </div>
             <div class="panel panel-default ">
                 <div class="row-mt-4">
-
+                    <div class="col-lg-12"><br>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                        </div>
+                    </div>
 
 
                 </div>
@@ -136,8 +145,23 @@
 
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/chart.min.js"></script>
+        <script src="js/chart-data.js"></script>
+        <script src="js/easypiechart.js"></script>
+        <script src="js/easypiechart-data.js"></script>
+        <script src="js/bootstrap-datepicker.js"></script>
         <script src="js/custom.js"></script>
-
+        <script>
+            window.onload = function() {
+                var chart1 = document.getElementById("line-chart").getContext("2d");
+                window.myLine = new Chart(chart1).Line(lineChartData, {
+                    responsive: true,
+                    scaleLineColor: "rgba(0,0,0,.2)",
+                    scaleGridLineColor: "rgba(0,0,0,.05)",
+                    scaleFontColor: "#c5c7cc"
+                });
+            };
+        </script>
 
 </body>
 

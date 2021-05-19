@@ -56,11 +56,11 @@
             </div>
         </form>
         <ul class="nav menu">
-            <li class="active"><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="numbers.html"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
-            <li><a href="airtime-prov.html"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
-            <li><a href="config-msg.html"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
-            <li><a href="send.html"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
+            <li class="active"><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+            <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
+            <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
+            <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
+            <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
 
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
@@ -91,7 +91,7 @@
             <div class="row">
                 <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-teal panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-shopping-cart color-blue"></em>
+                        <div class="row no-padding"><em class="fa fa-xl fa-phone color-blue"></em>
                             <div class="large">120</div>
                             <div class="text-muted">Numbers</div>
                         </div>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-blue panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-comments color-orange"></em>
+                        <div class="row no-padding"><em class="fa fa-xl fa fa-calendar-o color-orange"></em>
                             <div class="large">52</div>
                             <div class="text-muted">Events</div>
                         </div>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-orange panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-users color-teal"></em>
+                        <div class="row no-padding"><em class="fa fa-xl fa fa-globe color-teal"></em>
                             <div class="large">24</div>
                             <div class="text-muted">Countries</div>
                         </div>
