@@ -96,6 +96,7 @@
                 </div><br>
             </div>
             <!--/.row-->
+            
             <div class="col-md-6 col-md-6">
                 <div class="panel panel-container" id="panel">
 

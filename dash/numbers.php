@@ -52,31 +52,30 @@ if (isset($_POST["import"])) {
 
 
                 $contcode = $validationResult['country_code'];
+                
                 $carrier1 = $validationResult['carrier'];
+
 
 
             $countrycode = "";
             if (isset($column[3])) {
                 $countrycode = mysqli_real_escape_string($conn, $column[3]);
             }
-            $location = "";
-            if (isset($column[4])) {
-                $location = mysqli_real_escape_string($conn, $column[4]);
-            }
+
+
+           
              $carrier = "";
             if (isset($column[5])) {
                 $carrier = mysqli_real_escape_string($conn, $column[5]);
             }
             
-            $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,location,carrier)
-                   values (?,?,?,?,?,?)";
-            $paramType = "ssssss";
+            $sqlInsert = "INSERT into phone_number (first_name,phone_number,country_code,carrier)
+                   values (?,?,?,?)";
+            $paramType = "ssss";
             $paramArray = array(
                 $firstname,
-                $lastname,
                 $phonenumber,
                 $contcode,
-                $location,
                 $carrier1
                 
             );
@@ -228,24 +227,26 @@ $(document).ready(function() {
                                         <tr>
                                             <th scope="col">SN</th>
                                             <th scope="col">First Name</th>
-                                            <th scope="col">Last Name</th>
+                                            
                                             <th scope="col">Phone Num</th>
                                             <th scope="col">Country Code</th>
+                                            <th scope="col">location</th>
                                             <th scope="col">carrier</th>
                                         </tr>
                                     </thead>
                                     <?php
                 
-                foreach ($result as $row) {
-                    ?>
-                    
+                                        foreach ($result as $row) {
+                                            ?>
+                                            
                                     <tbody>
                                         <tr>
                                             <th scope="row"><?php  echo $row['sn']; ?></th>
                                             <td><?php  echo $row['first_name']; ?></td>
-                                            <td><?php  echo $row['last_name']; ?></td>
+                                            
                                             <td><?php  echo $row['phone_number']; ?></td>
                                             <td><?php  echo $row['country_code']; ?></td>
+                                            <td><?php  echo $row['country']; ?></td>
                                             <td><?php  echo $row['carrier']; ?></td>
                                         </tr>
                             <?php
@@ -259,9 +260,6 @@ $(document).ready(function() {
 
                             </div>
                         </div>
-
-
-
                     </div>
                     <!--/.col-->
                     <!-- <div class="col-sm-12">
