@@ -1034,7 +1034,7 @@ p.back-link {
 .grid{
     display: grid;
     grid-template-columns: auto auto;
-    margin-left: 29%;
+    margin-left: 25%;
     padding: -500px;
     
 }

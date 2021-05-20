@@ -191,30 +191,53 @@ $(document).ready(function() {
                 </div>
             </div><br>
             <!--/.row-->
+            <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="col-lg-6 grid">
-
-                    <div class="position-relative form-group"><br>
-                    <form action="" method="post" name="frmCSVImport" id="frmCSVImport" enctype="multipart/form-data">
+                 <form action="" method="post" name="frmCSVImport" id="frmCSVImport" enctype="multipart/form-data"><br>
+            
+                
+                    <div class="row-mt-8">
+                        <div class="col-lg-12">
+                    
+                    
+                    <div class="position-relative form-group">
+                        <select name="" class="form-control">
+                            <option>--Choose event--</option>
+                            <option value="1">Event 1</option>
+                            <option value="2">Event 2</option>
+                            <option value="3">Event 3</option>
+                        
+                        </select><br>
+                        <input type="text" placeholder="Create event" class="form-control">
+                            </div>
+                        </div>
+                        </div>
+                    
+                        <div class="position-relative form-group">
+                        <div class="col-lg-6 grid">
                          <input type="file" name="file"
                         id="file" accept=".csv">
-                    </div>
+                            </div>
+                            
+                    
+                    
                     <div class="position-relative form-group"><br>
                         <button class="btn btn-primary" name="import" type="submit" id="submit">import<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </div>
+                        </div><br>
+                    
 </form>
 
 
                 </div>
-                <br>
-
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default articles">
                             <div class="panel-heading">
                                 Upload Numbers
-                            </div>
+                                </div>
+                        
+            
 
                             <div class="panel-heading">
                                 <?php
