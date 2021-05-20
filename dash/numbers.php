@@ -197,7 +197,7 @@ $(document).ready(function() {
             
                 
                     <div class="row-mt-8">
-                        <div class="col-lg-12">
+                        <div class="col-lg-8">
                     
                     
                     <div class="position-relative form-group">
@@ -211,8 +211,8 @@ $(document).ready(function() {
                         <input type="text" placeholder="Create event" class="form-control">
                             </div>
                         </div>
-                        </div>
-                    
+                        </div><br><br>
+                    <div class="row"><br><br>
                         <div class="position-relative form-group">
                         <div class="col-lg-6 grid">
                          <input type="file" name="file"
@@ -221,10 +221,11 @@ $(document).ready(function() {
                             
                     
                     
-                    <div class="position-relative form-group"><br>
+                    <div class="position-relative form-group"><br><br>
                         <button class="btn btn-primary" name="import" type="submit" id="submit">import<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </div>
-                        </div><br>
+                            </div>
+                        </div><br><br><br><br>
                     
 </form>
 

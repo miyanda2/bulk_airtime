@@ -1034,8 +1034,14 @@ p.back-link {
 .grid{
     display: grid;
     grid-template-columns: auto auto;
-    margin-left: 25%;
     padding: -500px;
     
+    
+}
+#file{
+    margin-left: 53%;
+}
+.row-mt-8{
+    margin-left: 20%;
 }
 
