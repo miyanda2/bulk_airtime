@@ -28,7 +28,8 @@ include './functions.php';
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">Log in</div>
 				<div class="panel-body">
-					<form method="POST">
+					<div class="errMsg"></div>
+					<form method="POST" id="frmLogin">
 						<fieldset>
 							<div class="form-group">
 								<input class="form-control" placeholder="username" name="user" type="text" autofocus="">
@@ -40,7 +41,7 @@ include './functions.php';
 								
 							</div>
 							
-							<button type="submit" name= "btn" class="btn btn-primary">Login</button>
+							<button type="button" name= "btn" class="btn btn-primary" id="btnLogin">Login</button>
 							 
 					</form>
 				</div>
@@ -51,5 +52,61 @@ include './functions.php';
 
 <script src="dash/js/jquery-1.11.1.min.js"></script>
 	<script src="dash/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+
+        function formatErrorMessage(jqXHR, exception) 
+        {
+            if (jqXHR.status === 0) {
+                return ('Not connected.\nPlease verify your network connection.');
+            } else if (jqXHR.status == 404) {
+                return ('The requested page not found. [404]');
+            } else if (jqXHR.status == 500) {
+                return ('Internal Server Error [500].');
+            } else if (exception === 'parsererror') {
+                return ('Requested JSON parse failed.');
+            } else if (exception === 'timeout') {
+                return ('Time out error.');
+            } else if (exception === 'abort') {
+                return ('Ajax request aborted.');
+            } else {
+                return ('Uncaught Error.\n' + jqXHR.responseText);
+            }
+        }
+
+
+        $(document).on('click', '#btnLogin', function(e){
+            e.preventDefault();
+            var formData = $('#frmLogin').serialize();
+            var displayMessage = $('.errMsg');
+
+            swal("Please wait...");
+            displayMessage.html('<div class="alert alert-info mt-3 text-center" role="alert"> Please wait... </div>');
+
+            $.ajax({
+                async: true,
+                url: 'ajaxProcessLogin.php',
+                type: 'POST',
+                data: formData,
+                success: function (msg) {
+                    if(msg == 'success'){
+                        $('#frmLogin')[0].reset();
+                        swal("Good job!", "Login Successful.", "success");
+                        displayMessage.html('<div class="alert alert-success text-center" role="alert"> Login Successful. </div>');
+                        setTimeout((function(){ location.href = 'dash' }), 3000);
+                    }else{
+                        displayMessage.html('<div class="alert alert-danger text-center" role="alert"> '+msg+' </div>');
+                        swal("Oops!", ""+msg+"", "error");
+                    }
+                },
+                error: function(x,e) {            
+                    displayMessage.html('<div class="alert alert-danger text-center" role="alert"> '+formatErrorMessage(x, e)+' </div>');
+                    swal("Oops!", ""+formatErrorMessage(x, e)+"", "error");
+                }
+            })
+        });
+    </script>
 </body>
 </html>

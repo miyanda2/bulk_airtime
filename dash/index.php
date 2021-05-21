@@ -1,11 +1,9 @@
 <?php
 
-// session_start();
-// if (!isset($_SESSION['username'])) {
-//     $_SESSION['msg'] = "You have to log in first";
-//     header('location: ../login.php');
+require_once '../functions.php';
 
-// }
+$data_source = new DataSource;
+$number_count_object = $data_source->countTotalNumbers();
 ?>
 
 <!DOCTYPE html>
@@ -96,7 +94,7 @@
                 <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-teal panel-widget border-right">
                         <div class="row no-padding"><em class="fa fa-xl fa-phone color-blue"></em>
-                            <div class="large">120</div>
+                            <div class="large"><?php echo $number_count_object; ?></div>
                             <div class="text-muted">Numbers</div>
                         </div>
                     </div>

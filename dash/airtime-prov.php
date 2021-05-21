@@ -1,3 +1,10 @@
+<?php
+
+require_once '../functions.php';
+
+$data_source = new DataSource;
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -90,14 +97,14 @@
 
                     <div class="row-mt-4">
                         <div class="col-md-6">
-                            <input type="text" placeholder="Secret Key">
+                            <input type="text" placeholder="Username" name = "username">
                         </div>
                         <div class="col-md-6">
-                            <input type="text" placeholder="API Key">
+                            <input type="text" placeholder="API Key" name = "apikey">
                         </div><br><br>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <input type="text" placeholder="Public Key">
-                        </div>
+                        </div> -->
 
 
 

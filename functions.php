@@ -27,7 +27,7 @@ class DataSource
         return $conn;
     }
 
-        public function getPDOConnection()
+    public function getPDOConnection()
     {
         // specify your own database credentials
          
@@ -50,6 +50,7 @@ class DataSource
             die("<h2> Server Error. Contact Administrator</h2>");
         }
     }
+
     
     public function select($query, $paramType = "", $paramArray = array())
     {
@@ -144,9 +145,83 @@ class DataSource
             //return $e->getMessage();
         }
     }
+
+    
+
+    public function cleanInput($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        $data = addslashes($data);
+
+        return $data;
+    }
+
+    public function isUserLoggedIn($path)
+    {
+        global $sessionHandler;
+
+        if($sessionHandler->sessionExist('isLoggedIn')){
+            return true;
+        }else{
+            redirectTo($path);
+        }
+    }
+
+    public function isLoginValid($username, $password)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT COUNT(*) AS count FROM user WHERE username = '".$username."' AND password = '".$password."'";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+
+            if($count > 0){
+                return 'success';
+            }else{
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            //return false;
+            return $e->getMessage();
+        }
+    }
+
+        
+
+
+
+
+public function countTotalNumbers()
+	{
+		$con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT COUNT(*) AS total FROM phone_number";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if($count > 0){
+            	$stmt = $prepared_query ->fetchObject();
+                return $stmt->total;
+            }else{
+                return 0;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+	}
+
+    
 }
-
-
 
 
 
