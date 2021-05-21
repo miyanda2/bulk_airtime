@@ -52,6 +52,9 @@ if (isset($_POST["import"])) {
 
 
                 $contcode = $validationResult['country_code'];
+                
+                $carrier1 = $validationResult['carrier'];
+
 
                 $data_source = new DataSource;
 
@@ -61,29 +64,41 @@ if (isset($_POST["import"])) {
                 if($currency_code_object != false){
                     $currency_code = $currency_code_object->currencyCode;
                 }
-               
 
-            $countrycode = "";
-            if (isset($column[3])) {
-                $countrycode = mysqli_real_escape_string($conn, $column[3]);
-            }
+                $currency_code_object = $data_source->getCuurencyCode($contcode);
+                $country = '';
+
+                if($currency_code_object != false){
+                    $country = $currency_code_object->countryName;
+                }
+
+
+            // $countrycode = "";
+            // if (isset($column[3])) {
+            //     $countrycode = mysqli_real_escape_string($conn, $column[3]);
+            // }
+
+
+           
+            //  $carrier = "";
+            // if (isset($column[5])) {
+            //     $carrier = mysqli_real_escape_string($conn, $column[5]);
+            // }
             
-             $carrier = "";
-            if (isset($column[5])) {
-                $carrier = mysqli_real_escape_string($conn, $column[5]);
-            }
-            
-            $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,carrier,currency_code)
-                   values (?,?,?,?,?,?)";
-            $paramType = "ssssss";
+            $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,carrier,currency_code,country)
+                   values (?,?,?,?,?,?,?)";
+            $paramType = "sssssss";
             $paramArray = array(
                 $firstname,
                 $lastname,
                 $phonenumber,
                 $contcode,
-                $carrier,
-                $currency_code
+                $carrier1,
+                $currency_code,
+                $country,
             );
+            
+            
 
             $insertId = $db->insert($sqlInsert, $paramType, $paramArray);
             
@@ -104,13 +119,13 @@ if (isset($_POST["import"])) {
 $(document).ready(function() {
     $("#frmCSVImport").on("submit", function () {
 
-	    $("#response").attr("class", "");
+        $("#response").attr("class", "");
         $("#response").html("");
         var fileType = ".csv";
         var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
         if (!regex.test($("#file").val().toLowerCase())) {
-        	    $("#response").addClass("error");
-        	    $("#response").addClass("display-block");
+                $("#response").addClass("error");
+                $("#response").addClass("display-block");
             $("#response").html("Invalid File. Upload : <b>" + fileType + "</b> Files.");
             return false;
         }
@@ -140,9 +155,9 @@ $(document).ready(function() {
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span></button>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span></button>
                     <a class="navbar-brand" href="#"><span>Bulk-Airtime</span>Admin</a>
 
                 </div>
@@ -195,30 +210,54 @@ $(document).ready(function() {
                 </div>
             </div><br>
             <!--/.row-->
+            <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="col-lg-6 grid">
-
-                    <div class="position-relative form-group"><br>
-                    <form action="" method="post" name="frmCSVImport" id="frmCSVImport" enctype="multipart/form-data">
+                 <form action="" method="post" name="frmCSVImport" id="frmCSVImport" enctype="multipart/form-data"><br>
+            
+                
+                    <div class="row-mt-8">
+                        <div class="col-lg-8">
+                    
+                    
+                    <div class="position-relative form-group">
+                        <select name="" class="form-control">
+                            <option>--Choose event--</option>
+                            <option value="1">Event 1</option>
+                            <option value="2">Event 2</option>
+                            <option value="3">Event 3</option>
+                        
+                        </select><br>
+                        <input type="text" placeholder="Create event" class="form-control">
+                            </div>
+                        </div>
+                        </div><br><br>
+                    <div class="row"><br><br>
+                        <div class="position-relative form-group">
+                        <div class="col-lg-6 grid">
                          <input type="file" name="file"
                         id="file" accept=".csv">
-                    </div>
-                    <div class="position-relative form-group"><br>
+                            </div>
+                            
+                    
+                    
+                    <div class="position-relative form-group"><br><br>
                         <button class="btn btn-primary" name="import" type="submit" id="submit">import<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </div>
+                            </div>
+                        </div><br><br><br><br>
+                    
 </form>
 
 
                 </div>
-                <br>
-
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default articles">
                             <div class="panel-heading">
                                 Upload Numbers
-                            </div>
+                                </div>
+                        
+            
 
                             <div class="panel-heading">
                                 <?php
@@ -232,25 +271,30 @@ $(document).ready(function() {
                                         <tr>
                                             <th scope="col">SN</th>
                                             <th scope="col">First Name</th>
-                                            <th scope="col">Last Name</th>
+                                            
                                             <th scope="col">Phone Num</th>
                                             <th scope="col">Country Code</th>
-                                            <th scope="col">Currency Code</th>
+                                            <th scope="col">currency Code</th>
+                                            <th scope="col">carrier</th>
+                                            <th scope="col">country</th>
                                         </tr>
                                     </thead>
                                     <?php
                 
-                foreach ($result as $row) {
-                    ?>
-                    
+                                        foreach ($result as $row) {
+                                            ?>
+                                            
                                     <tbody>
                                         <tr>
                                             <th scope="row"><?php  echo $row['sn']; ?></th>
                                             <td><?php  echo $row['first_name']; ?></td>
-                                            <td><?php  echo $row['last_name']; ?></td>
+                                            
                                             <td><?php  echo $row['phone_number']; ?></td>
                                             <td><?php  echo $row['country_code']; ?></td>
                                             <td><?php  echo $row['currency_code']; ?></td>
+                                            <td><?php  echo $row['carrier']; ?></td>
+                                            <td><?php  echo $row['country']; ?></td>
+                                        </tr>
                                         </tr>
                             <?php
                 }
@@ -263,9 +307,6 @@ $(document).ready(function() {
 
                             </div>
                         </div>
-
-
-
                     </div>
                     <!--/.col-->
                     <!-- <div class="col-sm-12">
