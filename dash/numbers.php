@@ -1,33 +1,48 @@
 <?php
+    require_once '../functions.php';
+    $db = new DataSource();
+    $conn = $db->getConnection();
 
+    if (isset($_POST["import"]))
+    {
 
-require_once '../functions.php';
-$db = new DataSource();
-$conn = $db->getConnection();
+        $fileName = $_FILES["file"]["tmp_name"];
 
-if (isset($_POST["import"])) {
-    
-    $fileName = $_FILES["file"]["tmp_name"];
-    
-    if ($_FILES["file"]["size"] > 0) {
-        
-        $file = fopen($fileName, "r");
-        
-        while (($column = fgetcsv($file, 10000, ",")) !== FALSE) { 
-            $firstname = "";
-            if (isset($column[0])) {
-                $firstname = mysqli_real_escape_string($conn, $column[0]);
-            }
-            $lastname = "";
-            if (isset($column[1])) {
-                $lastname = mysqli_real_escape_string($conn, $column[1]);
-            }
-            $phonenumber = "";
-            if (isset($column[2])) {
-                $phonenumber = mysqli_real_escape_string($conn, $column[2]);
-            }
+        if ($_FILES["file"]["size"] > 0)
+        {
 
-            
+            $file = fopen($fileName, "r");
+
+            $error = array();
+
+            while (($column = fgetcsv($file, 10000, ",")) !== false)
+            {
+                $firstname = "";
+                $lastname = "";
+                $phonenumber = "";
+                $country = '';
+                $currency_code = '';
+                $country_code = '';
+                $carrier = '';
+                $tag_id = '';
+
+                $tag_id = $db->cleanInput($_POST['tag']);
+
+                if (isset($column[0]))
+                {
+                    $firstname = $db->cleanInput($column[0]);
+                }
+
+                if (isset($column[1]))
+                {
+                    $lastname = $db->cleanInput($column[1]);
+                }
+
+                if (isset($column[2]))
+                {
+                    $phonenumber = $db->cleanInput($column[2]);
+                }
+
                 // set API Access Key
                 $access_key = 'bb1eae61a7e24d7f88a2d862851305f7';
 
@@ -35,7 +50,7 @@ if (isset($_POST["import"])) {
                 $phone_number = $phonenumber;
 
                 // Initialize CURL:
-                $ch = curl_init('http://apilayer.net/api/validate?access_key='.$access_key.'&number='.$phone_number.'');  
+                $ch = curl_init('http://apilayer.net/api/validate?access_key=' . $access_key . '&number=' . $phone_number . '');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
                 // Store the data:
@@ -47,93 +62,67 @@ if (isset($_POST["import"])) {
 
                 // Access and use your preferred validation result objects
                 $validationResult['valid'];
-                $validationResult['country_code'];
-                $validationResult['carrier'];
-
-
-                $contcode = $validationResult['country_code'];
-                
-                $carrier1 = $validationResult['carrier'];
-
+                $country_code = $validationResult['country_code'];
+                $carrier = $validationResult['carrier'];
 
                 $data_source = new DataSource;
 
-                $currency_code_object = $data_source->getCuurencyCode($contcode);
-                $currency_code = '';
+                $currency_code_object = $data_source->getCurrencyCode($country_code);
 
-                if($currency_code_object != false){
+                if ($currency_code_object != false)
+                {
                     $currency_code = $currency_code_object->currencyCode;
-                }
-
-                $currency_code_object = $data_source->getCuurencyCode($contcode);
-                $country = '';
-
-                if($currency_code_object != false){
                     $country = $currency_code_object->countryName;
+
+                    $response = $db->saveNumber($tag_id, $firstname, $lastname, $phone_number, $country_code, $country, $carrier, $currency_code);
+
+                    if ($response == 'success')
+                    {
+                        $type = "success";
+                        $message = "CSV Data Imported into the Database";
+                    }
+                    else
+                    {
+                        array_push($error, $response . ' - error with ' . $phone_number);
+                        $type = "error";
+                        $message = "Problem in Importing CSV Data";
+                    }
                 }
 
+                /* $countrycode = "";
+                        // if (isset($column[3])) {
+                        //     $countrycode = mysqli_real_escape_string($conn, $column[3]);
+                        // }
+                
+                
+                       
+                        //  $carrier = "";
+                        // if (isset($column[5])) {
+                        //     $carrier = mysqli_real_escape_string($conn, $column[5]);
+                        // }
+                        
+                        $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,carrier,currency_code,country)
+                               values (?,?,?,?,?,?,?)";
+                        $paramType = "sssssss";
+                        $paramArray = array(
+                            $firstname,
+                            $lastname,
+                            $phonenumber,
+                            $contcode,
+                            $carrier1,
+                            $currency_code,
+                            $country,
+                        );                
+                
+                        $insertId = $db->insert($sqlInsert, $paramType, $paramArray);
+                */
 
-            // $countrycode = "";
-            // if (isset($column[3])) {
-            //     $countrycode = mysqli_real_escape_string($conn, $column[3]);
-            // }
-
-
-           
-            //  $carrier = "";
-            // if (isset($column[5])) {
-            //     $carrier = mysqli_real_escape_string($conn, $column[5]);
-            // }
-            
-            $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,carrier,currency_code,country)
-                   values (?,?,?,?,?,?,?)";
-            $paramType = "sssssss";
-            $paramArray = array(
-                $firstname,
-                $lastname,
-                $phonenumber,
-                $contcode,
-                $carrier1,
-                $currency_code,
-                $country,
-            );
-            
-            
-
-            $insertId = $db->insert($sqlInsert, $paramType, $paramArray);
-            
-            if (! empty($insertId)) {
-                $type = "success";
-                $message = "CSV Data Imported into the Database";
-            } else {
-                $type = "error";
-                $message = "Problem in Importing CSV Data";
             }
+
         }
     }
-}
 ?>
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#frmCSVImport").on("submit", function () {
-
-        $("#response").attr("class", "");
-        $("#response").html("");
-        var fileType = ".csv";
-        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
-        if (!regex.test($("#file").val().toLowerCase())) {
-                $("#response").addClass("error");
-                $("#response").addClass("display-block");
-            $("#response").html("Invalid File. Upload : <b>" + fileType + "</b> Files.");
-            return false;
-        }
-        return true;
-    });
-});
-</script>
-    <html>
+<html>
 
     <head>
         <meta charset="utf-8">
@@ -199,119 +188,104 @@ $(document).ready(function() {
                             <em class="fa fa-home"></em>
                         </a>
                     </li>
-                    <li class="active">numbers</li>
+                    <li class="active">Numbers</li>
                 </ol>
             </div>
             <!--/.row-->
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">numbers</h1>
+                    <h1 class="page-header">Numbers</h1>
                 </div>
             </div><br>
             <!--/.row-->
-            <div class="col-lg-12">
-            <div class="panel panel-default">
-                 <form action="" method="post" name="frmCSVImport" id="frmCSVImport" enctype="multipart/form-data"><br>
-            
-                
-                    <div class="row-mt-8">
-                        <div class="col-lg-8">
-                    
-                    
-                    <div class="position-relative form-group">
-                        <select name="" class="form-control">
-                            <option>--Choose event--</option>
-                            <option value="1">Event 1</option>
-                            <option value="2">Event 2</option>
-                            <option value="3">Event 3</option>
-                        
-                        </select><br>
-                        <input type="text" placeholder="Create event" class="form-control">
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <form action="" method="post" name="frmCSVImport" id="frmCSVImport" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <select name="tag" class="form-control">
+                                    <?php echo $db->loadTagsIntoCombo(); ?>                        
+                                </select>
                             </div>
                         </div>
-                        </div><br><br>
-                    <div class="row"><br><br>
-                        <div class="position-relative form-group">
-                        <div class="col-lg-6 grid">
-                         <input type="file" name="file"
-                        id="file" accept=".csv">
+                        <br/>
+                        <div class="row">
+                            <div class="col-lg-12"> 
+                                <input type="file" name="file" class="form-control" accept=".csv">
                             </div>
-                            
-                    
-                    
-                    <div class="position-relative form-group"><br><br>
-                        <button class="btn btn-primary" name="import" type="submit" id="submit">import<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                    </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-lg-12"> 
+                                <button class="btn btn-primary form-control" name="import" type="submit" id="submit">
+                                    Import Numbers
+                                </button>
                             </div>
-                        </div><br><br><br><br>
-                    
-</form>
-
-
+                        </div>         
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default articles">
-                            <div class="panel-heading">
-                                Upload Numbers
-                                </div>
-                        
-            
+            </div>
+            <br/><br/>
 
-                            <div class="panel-heading">
-                                <?php
-                                    $sqlSelect = "SELECT * FROM phone_number";
-                                    $result = $db->select($sqlSelect);
-                                    if (! empty($result)) {
-                                ?>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default articles">
+                        <div class="panel-heading">
+                            Upload Numbers
+                        </div>
+
+                        <div class="panel-heading">
+                            <?php
+                                $sqlSelect = "SELECT * FROM phone_number AS p INNER JOIN tag AS t ON p.tag_id = t.sn";
+                                $result = $db->select($sqlSelect);
+                                if (!empty($result))
+                                {
+                            ?>
                                 <table class="table" id="userTable">
                                     
                                     <thead>
                                         <tr>
                                             <th scope="col">SN</th>
+                                            <th scope="col">Tag</th>
                                             <th scope="col">First Name</th>
-                                            
                                             <th scope="col">Phone Num</th>
                                             <th scope="col">Country Code</th>
-                                            <th scope="col">currency Code</th>
-                                            <th scope="col">carrier</th>
-                                            <th scope="col">country</th>
+                                            <th scope="col">Currency Code</th>
+                                            <th scope="col">Carrier</th>
+                                            <th scope="col">Country</th>
                                         </tr>
                                     </thead>
-                                    <?php
-                
-                                        foreach ($result as $row) {
-                                            ?>
-                                            
                                     <tbody>
-                                        <tr>
-                                            <th scope="row"><?php  echo $row['sn']; ?></th>
-                                            <td><?php  echo $row['first_name']; ?></td>
-                                            
-                                            <td><?php  echo $row['phone_number']; ?></td>
-                                            <td><?php  echo $row['country_code']; ?></td>
-                                            <td><?php  echo $row['currency_code']; ?></td>
-                                            <td><?php  echo $row['carrier']; ?></td>
-                                            <td><?php  echo $row['country']; ?></td>
-                                        </tr>
-                                        </tr>
-                            <?php
-                }
-                ?>
+                                    <?php
+                                        $sn = 0;
+                                        foreach ($result as $row)
+                                        {
+                                            $sn++;
+                                    ?>                                        
+                                            <tr>
+                                                <th scope="row"><?php echo $sn; ?></th>
+                                                <td><?php echo $row['event']; ?></td> 
+                                                <td><?php echo $row['first_name']; ?></td>     
+                                                <td><?php echo $row['phone_number']; ?></td>
+                                                <td><?php echo $row['country_code']; ?></td>
+                                                <td><?php echo $row['currency_code']; ?></td>
+                                                <td><?php echo $row['carrier']; ?></td>
+                                                <td><?php echo $row['country']; ?></td>
+                                            </tr>
+                                    <?php
+                                        }
+                                    ?>
                                     </tbody>
                                 </table>
-                                <?php } ?>
-                                <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
-                            <div class="panel-body">
-
-                            </div>
+                            <?php 
+                                } 
+                            ?>
+                            <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
                         </div>
                     </div>
-                    <!--/.col-->
-                    <!-- <div class="col-sm-12">
-                <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-            </div> -->
                 </div>
                 <!--/.row-->
             </div>
@@ -323,6 +297,24 @@ $(document).ready(function() {
         <script src="js/bootstrap.min.js"></script>
         <script src="js/custom.js"></script>
 
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#frmCSVImport").on("submit", function () {
+
+                    $("#response").attr("class", "");
+                    $("#response").html("");
+                    var fileType = ".csv";
+                    var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+                    if (!regex.test($("#file").val().toLowerCase())) {
+                            $("#response").addClass("error");
+                            $("#response").addClass("display-block");
+                        $("#response").html("Invalid File. Upload : <b>" + fileType + "</b> Files.");
+                        return false;
+                    }
+                    return true;
+                });
+            });
+        </script>
     </body>
 
-    </html>
+</html>

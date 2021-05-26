@@ -9,7 +9,7 @@ class DataSource
 
     private $conn;
 
-    function __construct()
+    public function __construct()
     {
         $this->conn = $this->getConnection();
     }
@@ -108,7 +108,6 @@ class DataSource
         ), $paramValueReference);
     }
 
-    
     public function getRecordCount($query, $paramType = "", $paramArray = array())
     {
         $stmt = $this->conn->prepare($query);
@@ -123,7 +122,7 @@ class DataSource
         return $recordCount;
     }
 
-    public function getCuurencyCode($countrycode)
+    public function getCurrencyCode($countrycode)
     {
         $con = $this->getPDOConnection();
 
@@ -145,8 +144,6 @@ class DataSource
             //return $e->getMessage();
         }
     }
-
-    
 
     public function cleanInput($data)
     {
@@ -192,12 +189,7 @@ class DataSource
         }
     }
 
-        
-
-
-
-
-public function countTotalNumbers()
+    public function countTotalNumbers()
 	{
 		$con = $this->getPDOConnection();
 
@@ -220,8 +212,188 @@ public function countTotalNumbers()
         }
 	}
 
-    
+    public function countEventNumbers()
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT COUNT(*) AS total FROM tag";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt->total;
+            } else {
+                return 0;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function countCountryNumbers()
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT COUNT(DISTINCT country) AS total FROM phone_number GROUP BY country";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt->total;
+            } else {
+                return 0;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function getEvent()
+    {
+    }
+
+    public function configMessage()
+    {
+    }
+
+    public function mail()
+    {
+    }
+
+    public function saveNumber($tag_id, $first_name, $last_name, $phone_number, $country_code, $country, $carrier, $currency_code)
+    {
+        $con = $this->getPDOConnection();
+
+        date_default_timezone_set('Africa/Lagos'); // Set the Default Time Zone:
+        $date = '';
+        $d = new DateTime($date);
+        $cdate = $d->format('Y-m-d h:i:s');
+
+        $con->beginTransaction();
+
+
+        try{
+
+            $query1 = "INSERT INTO phone_number (tag_id, first_name, last_name, phone_number, country_code, country, carrier, currency_code, date_created) 
+                    VALUES (:tag_id, :first_name, :last_name, :phone_number, :country_code, :country, :carrier, :currency_code, :date_created)";
+            $stmt1 = $con->prepare($query1);
+            // prepare sql and bind parameters
+            $stmt1->bindParam(':tag_id', $tag_id);
+            $stmt1->bindParam(':first_name', $first_name);
+            $stmt1->bindParam(':last_name', $last_name);
+            $stmt1->bindParam(':phone_number', $phone_number);
+            $stmt1->bindParam(':country_code', $country_code);
+            $stmt1->bindParam(':country', $country);
+            $stmt1->bindParam(':carrier', $carrier);
+            $stmt1->bindParam(':currency_code', $currency_code);
+            $stmt1->bindParam(':date_created', $cdate);
+            
+            $stmt1->execute();                 
+            $stmt1->closeCursor();
+
+            $con->commit();
+
+            return 'success';
+
+        } catch (Exception $e) {
+            $con->rollBack();
+            return false;
+            //return $e->getMessage();
+        }       
+    }
+
+    public function loadTagsIntoCombo($param_cat = '')
+    {
+        $r = '';
+
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT * FROM tag ORDER BY event ASC";
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+
+          if($count > 0){
+
+            $stmt = $prepared_query ->fetchAll();
+
+            $r .= "<option value = '-1'>Select Tag</option>";
+
+            foreach ($stmt as $tags => $tag) {
+
+              if($tag['sn'] == $param_cat){
+                $r .= "<option value='" . $tag['sn'] . "' selected='selected'>" . $tag['event'] . "</option>";
+                $cat_found = true;
+              }else{
+                $r .= "<option value='" . $tag['sn'] . "'>" . $tag['event'] . "</option>";
+              }
+            }
+
+          }else{
+            $r .= "<option value = '-1'>No Record Found</option>";
+          }
+        } catch (Exception $e) {
+          return '-1';
+            //return $e->getMessage();
+        }
+
+        return $r;
+    }
+
+    public function loadCountryIntoCombo($param_cat = '')
+    {
+        $r = '';
+
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT * FROM countries ORDER BY countryName ASC";
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+
+          if($count > 0){
+
+            $stmt = $prepared_query ->fetchAll();
+
+            $r .= "<option value = '-1'>Select Country</option>";
+
+            foreach ($stmt as $countries => $country) {
+
+              if($country['countryCode'] == $param_cat){
+                $r .= "<option value='" . $country['countryCode'] . "' selected='selected'>" . $country['countryName'] . "</option>";
+                $cat_found = true;
+              }else{
+                $r .= "<option value='" . $country['countryCode'] . "'>" . $country['countryName'] . "</option>";
+              }
+            }
+
+          }else{
+            $r .= "<option value = '-1'>No Record Found</option>";
+          }
+        } catch (Exception $e) {
+          return '-1';
+            //return $e->getMessage();
+        }
+
+        return $r;
+    }
+
+
 }
+
+
 
 
 

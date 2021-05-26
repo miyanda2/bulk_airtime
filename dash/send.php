@@ -1,3 +1,7 @@
+<?php
+    require_once '../functions.php';
+    $db = new DataSource();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -83,13 +87,14 @@
         <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div class="col-lg-12 grid">
                 <div class="position-relative form-group">
-                    <select name="" class="form-control">
-                            <option value = '-1'>Event</option><option value='1'>                                             </select>
+                    <select name="tag" class="form-control">
+                        <?php echo $db->loadTagsIntoCombo(); ?>                        
+                    </select>
                 </div>
                 <div class="position-relative form-group">
-                    <select name="" class="form-control">
-            <option value = '-1'>Country</option><option value='1'>
-        </select>
+                    <select name="tag" class="form-control">
+                        <?php echo $db->loadCountryIntoCombo(); ?>                        
+                    </select>
                 </div>
                 <div class="position-relative form-group">
 
