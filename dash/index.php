@@ -1,149 +1,112 @@
 <?php
-
-require_once '../functions.php';
-
-$data_source = new DataSource;
-$number_count_object = $data_source->countTotalNumbers();
+    include './functions.php';
 ?>
+
 
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/datepicker3.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-
-
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Lumino - Login</title>
+	<link href="dash/css/bootstrap.min.css" rel="stylesheet">
+	<link href="dash/css/datepicker3.css" rel="stylesheet">
+	<link href="dash/css/styles.css" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
 </head>
-
 <body>
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span></button>
-                <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
-                <ul class="nav navbar-top-links navbar-right">
-                </ul>
-            </div>
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-    <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        <div class="profile-sidebar">
+
+<?php
 
 
-    
-        
+?>
+	<div class="row">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+			<div class="login-panel panel panel-default">
+				<div class="panel-heading">Log in</div>
+				<div class="panel-body">
+					<div class="errMsg"></div>
+					<form method="POST" id="frmLogin">
+						<fieldset>
+							<div class="form-group">
+								<input class="form-control" placeholder="username" name="user" type="text" autofocus="">
+							</div>
+							<div class="form-group">
+								<input class="form-control" placeholder="Password" name="pw" type="password" value="">
+							</div>
+							<div class="checkbox">
+								
+							</div>
+							
+							<button type="button" name= "btn" class="btn btn-primary" id="btnLogin">Login</button>
+							 
+					</form>
+				</div>
+			</div>
+		</div><!-- /.col-->
+	</div><!-- /.row -->	
+	
 
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">Username</div>
+<script src="dash/js/jquery-1.11.1.min.js"></script>
+	<script src="dash/js/bootstrap.min.js"></script>
 
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div class="divider"></div>
-        <form role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
-        </form>
-        <ul class="nav menu">
-            <li class="active"><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
-            <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
-            <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
-            <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-            <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
-        </ul>
-    </div>
-    <!--/.sidebar-->
+    <script>
 
-    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <div class="row">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="#">
-                        <em class="fa fa-home"></em>
-                    </a>
-                </li>
-                <li class="active">Dashboard</li>
-            </ol>
-        </div>
-        <!--/.row-->
+        function formatErrorMessage(jqXHR, exception) 
+        {
+            if (jqXHR.status === 0) {
+                return ('Not connected.\nPlease verify your network connection.');
+            } else if (jqXHR.status == 404) {
+                return ('The requested page not found. [404]');
+            } else if (jqXHR.status == 500) {
+                return ('Internal Server Error [500].');
+            } else if (exception === 'parsererror') {
+                return ('Requested JSON parse failed.');
+            } else if (exception === 'timeout') {
+                return ('Time out error.');
+            } else if (exception === 'abort') {
+                return ('Ajax request aborted.');
+            } else {
+                return ('Uncaught Error.\n' + jqXHR.responseText);
+            }
+        }
 
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Dashboard</h1>
-            </div>
-        </div>
-        <!--/.row-->
 
-        <div class="panel panel-container">
-            <div class="row">
-                <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-teal panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-phone color-blue"></em>
-                            <div class="large"><?php echo $number_count_object; ?></div>
-                            <div class="text-muted">Numbers</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-blue panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa fa-calendar-o color-orange"></em>
-                            <div class="large">52</div>
-                            <div class="text-muted">Events</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-orange panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa fa-globe color-teal"></em>
-                            <div class="large">24</div>
-                            <div class="text-muted">Countries</div>
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-            <!--/.row-->
-        </div><br>
-        <div>
-            <div class="col-lg-12 grid">
-                        <div class="position-relative form-group">
-                             <select name="" class="form-control">
-                                <option value = '-1'>Event</option><option value='1'>
-                            </select>
-                        </div>
-                    <div class="position-relative form-group center">
-                <div class="form-group">
-              <button class="btn btn-primary" type="submit" name="download" type="submit">Download <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-            </div>
-                                                </div><br>
-                                            </div>
+        $(document).on('click', '#btnLogin', function(e){
+            e.preventDefault();
+            var formData = $('#frmLogin').serialize();
+            var displayMessage = $('.errMsg');
 
-    </div>
-    <!--/.row-->
-    </div>
-    <!--/.main-->
+            swal("Please wait...");
+            displayMessage.html('<div class="alert alert-info mt-3 text-center" role="alert"> Please wait... </div>');
 
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-    <script src="js/custom.js"></script>
-    
-
+            $.ajax({
+                async: true,
+                url: 'ajaxProcessLogin.php',
+                type: 'POST',
+                data: formData,
+                success: function (msg) {
+                    if(msg == 'success'){
+                        $('#frmLogin')[0].reset();
+                        swal("Good job!", "Login Successful.", "success");
+                        displayMessage.html('<div class="alert alert-success text-center" role="alert"> Login Successful. </div>');
+                        setTimeout((function(){ location.href = 'dash' }), 3000);
+                    }else{
+                        displayMessage.html('<div class="alert alert-danger text-center" role="alert"> '+msg+' </div>');
+                        swal("Oops!", ""+msg+"", "error");
+                    }
+                },
+                error: function(x,e) {            
+                    displayMessage.html('<div class="alert alert-danger text-center" role="alert"> '+formatErrorMessage(x, e)+' </div>');
+                    swal("Oops!", ""+formatErrorMessage(x, e)+"", "error");
+                }
+            })
+        });
+    </script>
 </body>
-
 </html>
