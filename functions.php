@@ -341,7 +341,7 @@ class DataSource
 
             $stmt = $prepared_query ->fetchAll();
 
-            $r .= "<option value = '-1'>Select Tag</option>";
+            $r .= "<option value = '-1'>Select Event</option>";
 
             foreach ($stmt as $tags => $tag) {
 
