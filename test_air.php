@@ -2,9 +2,16 @@
 require 'vendor/autoload.php';
 use AfricasTalking\SDK\AfricasTalking;
 
+require_once './functions.php';
+
+$data_source = new DataSource;
+$conn = $data_source->getConnection();
+
+
+
 // Set your app credentials
-$username = "sandbox";
-$apikey   = "key";
+$username = $data_source->getSetting()->username;
+$apikey   = $data_source->getSetting()->apikey;
 
 // Initialize the SDK
 $AT       = new AfricasTalking($username, $apikey);
@@ -23,6 +30,7 @@ try {
     // That's it, hit send and we'll take care of the rest
     $results = $airtime->send([
         "recipients" => $recipients
+        
     ]);
 
     print_r($results);

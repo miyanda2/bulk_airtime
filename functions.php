@@ -108,6 +108,8 @@ class DataSource
         ), $paramValueReference);
     }
 
+
+    
     public function getRecordCount($query, $paramType = "", $paramArray = array())
     {
         $stmt = $this->conn->prepare($query);
@@ -121,6 +123,9 @@ class DataSource
 
         return $recordCount;
     }
+
+
+    //get currency codes
 
     public function getCurrencyCode($countrycode)
     {
@@ -145,6 +150,8 @@ class DataSource
         }
     }
 
+
+        
     public function cleanInput($data)
     {
         $data = trim($data);
@@ -155,6 +162,8 @@ class DataSource
         return $data;
     }
 
+
+        // Check if current use us Valid
     public function isUserLoggedIn($path)
     {
         global $sessionHandler;
@@ -166,6 +175,8 @@ class DataSource
         }
     }
 
+
+        // check if login is Valid
     public function isLoginValid($username, $password)
     {
         $con = $this->getPDOConnection();
@@ -190,7 +201,7 @@ class DataSource
     }
 
 
-
+    //Count Total Amount of number 
     public function countTotalNumbers()
 	{
 		$con = $this->getPDOConnection();
@@ -215,7 +226,7 @@ class DataSource
 	}
 
 
-
+    // count amount of created Events
     public function countEventNumbers()
     {
         $con = $this->getPDOConnection();
@@ -240,7 +251,7 @@ class DataSource
     }
 
 
-
+    //sort and count countries
     public function countCountryNumbers()
     {
         $con = $this->getPDOConnection();
@@ -265,7 +276,7 @@ class DataSource
     }
 
     
-
+   // Save imported Phone number into DB  
 
     public function saveNumber($tag_id, $first_name, $last_name, $phone_number, $country_code, $country, $carrier, $currency_code)
     {
@@ -309,6 +320,11 @@ class DataSource
         }       
     }
 
+
+
+
+    //load Event into dropdown
+
     public function loadTagsIntoCombo($param_cat = '')
     {
         $r = '';
@@ -350,6 +366,8 @@ class DataSource
 
 
 
+    //load country into dropdown
+
     public function loadCountryIntoCombo($param_cat = '')
     {
         $r = '';
@@ -390,7 +408,7 @@ class DataSource
     }
 
 
-
+        //add new events
     public function addNewEvent($events)
     {
         $con = $this->getPDOConnection();
@@ -424,7 +442,7 @@ class DataSource
     }
 
 
-
+    //get Africastalking credentials
     public function getSetting()
     {
         $con = $this->getPDOConnection();
@@ -448,7 +466,7 @@ class DataSource
         }
     }
 
-
+    //return msg
     public function getMessage()
     {
         $con = $this->getPDOConnection();
@@ -470,6 +488,10 @@ class DataSource
             return false;
             //return $e->getMessage();
         }
+    }
+
+    public function sendSMS(){
+
     }
 
 }
