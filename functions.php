@@ -423,7 +423,7 @@ class DataSource
         try {
 
             // prepare sql and bind parameters      
-            $query = "INSERT INTO tag (events) 
+            $query = "INSERT INTO tag (event) 
                     VALUES (:events)";
             $stmt = $con->prepare($query);
             // prepare sql and bind parameters
