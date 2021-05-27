@@ -1,7 +1,7 @@
 <?php
 
-require_once '../functions.php'; 
-   
+require_once '../functions.php';
+
 $db = new DataSource();
 $conn = $db->getConnection();
 
@@ -30,9 +30,9 @@ $conn = $db->getConnection();
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span></button>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span></button>
                 <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
                 <ul class="nav navbar-top-links navbar-right">
                 </ul>
@@ -91,28 +91,29 @@ $conn = $db->getConnection();
 
             <div class="col-md-6 col-md-6">
                 <div class="panel panel-container" id="panel">
-                    
 
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <form method="post" action="process_msg.php">
-                                            
-                                                <label class="control-label">Message</label>
-                                                    <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required>Test</textarea>
-                                                    <br><br>
-                                            
-                    
-                                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
-                                                 
-                                        </form>                        
-                                    </div>
-                                </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form method="post" action="process_msg.php">
+
+                                <label class="control-label">Message</label>
+                                <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required><?php echo $db->getMessage()->msg?></textarea>
+                                <br><br>
+
+
+                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
+
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>  
         </div>
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/custom.js"></script>
+    </div>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
 </body>
+
 </html>

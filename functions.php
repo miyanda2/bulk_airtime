@@ -449,6 +449,29 @@ class DataSource
     }
 
 
+    public function getMessage()
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT msg FROM message WHERE sn = 1";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
 }
 
 
