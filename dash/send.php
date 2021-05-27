@@ -91,11 +91,11 @@
                         <?php echo $db->loadTagsIntoCombo(); ?>                        
                     </select>
                 </div>
-                <!-- <div class="position-relative form-group">
+                <div class="position-relative form-group">
                     <select name="tag" class="form-control">
                         <?php echo $db->loadCountryIntoCombo(); ?>                        
                     </select>
-                </div> -->
+                </div>
                 <div class="position-relative form-group">
 
                 </div><br>
