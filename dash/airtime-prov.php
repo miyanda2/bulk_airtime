@@ -3,7 +3,7 @@
 require_once '../functions.php';
 
 $data_source = new DataSource;
-
+$conn = $data_source->getConnection();
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,9 +27,9 @@ $data_source = new DataSource;
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span></button>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span></button>
                 <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
                 <ul class="nav navbar-top-links navbar-right">
                 </ul>
@@ -84,85 +84,75 @@ $data_source = new DataSource;
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-12">
                     <select name="" class="form-control">
-                    <option value = '-1'></option><option value='1'>
-                </select>
+                        <option value='-1'></option>
+                        <option value='1'>
+                    </select>
                 </div>
-            </div><br>
+            </div><br> -->
             <!--/.row-->
-            <div class="col-md-6 col-md-6">
-                <div class="panel panel-container">
+            <form method="post" action="process-set.php">
+                <div class="col-md-6 col-md-6">
+                    <div class="panel panel-container">
 
-                    <div class="row-mt-4">
-                        <div class="col-md-6">
-                            <input type="text" placeholder="Username" name = "username">
+                        <div class="row-mt-4">
+                            <div class="col-md-6">
+                                <input type="text" value=<?php echo $data_source->getSetting()->username; ?> name="username">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" value=<?php echo $data_source->getSetting()->apikey; ?> name="apikey">
+                            </div><br>
+
+
+
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" placeholder="API Key" name = "apikey">
-                        </div><br><br>
-                        <!-- <div class="col-md-6">
-                            <input type="text" placeholder="Public Key">
-                        </div> -->
+                        <!--/.row-->
+                    </div>
+                </div>
 
+                <div class="panel panel-default ">
+                    <div class="row-mt-4">
+                        <div class="col-lg-12"><br>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                            </div>
+                        </div>
 
 
                     </div>
-                    <!--/.row-->
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+
+                    </div>
                 </div>
             </div>
-            <div class="panel panel-default ">
-                <div class="row-mt-4">
-                    <div class="col-lg-12"><br>
-                        <div class="form-group">
-                            <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                        </div>
-                    </div>
+            <!--/.row-->
 
 
-                </div>
+            <!--/.row-->
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-
-                        </div>
-                    </div>
-                </div>
-                <!--/.row-->
-
-
-                <!--/.row-->
-
-                <!--/.col-->
-                <!-- <div class="col-sm-12">
+            <!--/.col-->
+            <!-- <div class="col-sm-12">
             <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
         </div> -->
-            </div>
-            <!--/.row-->
         </div>
-        <!--/.main-->
+        <!--/.row-->
+    </div>
+    <!--/.main-->
 
-        <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/chart.min.js"></script>
-        <script src="js/chart-data.js"></script>
-        <script src="js/easypiechart.js"></script>
-        <script src="js/easypiechart-data.js"></script>
-        <script src="js/bootstrap-datepicker.js"></script>
-        <script src="js/custom.js"></script>
-        <script>
-            window.onload = function() {
-                var chart1 = document.getElementById("line-chart").getContext("2d");
-                window.myLine = new Chart(chart1).Line(lineChartData, {
-                    responsive: true,
-                    scaleLineColor: "rgba(0,0,0,.2)",
-                    scaleGridLineColor: "rgba(0,0,0,.05)",
-                    scaleFontColor: "#c5c7cc"
-                });
-            };
-        </script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <script src="js/chart-data.js"></script>
+    <script src="js/easypiechart.js"></script>
+    <script src="js/easypiechart-data.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/custom.js"></script>
+
 
 </body>
 

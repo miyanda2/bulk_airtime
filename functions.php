@@ -189,6 +189,8 @@ class DataSource
         }
     }
 
+
+
     public function countTotalNumbers()
 	{
 		$con = $this->getPDOConnection();
@@ -211,6 +213,8 @@ class DataSource
             //return $e->getMessage();
         }
 	}
+
+
 
     public function countEventNumbers()
     {
@@ -235,6 +239,8 @@ class DataSource
         }
     }
 
+
+
     public function countCountryNumbers()
     {
         $con = $this->getPDOConnection();
@@ -258,17 +264,8 @@ class DataSource
         }
     }
 
-    public function getEvent()
-    {
-    }
+    
 
-    public function configMessage()
-    {
-    }
-
-    public function mail()
-    {
-    }
 
     public function saveNumber($tag_id, $first_name, $last_name, $phone_number, $country_code, $country, $carrier, $currency_code)
     {
@@ -351,6 +348,8 @@ class DataSource
         return $r;
     }
 
+
+
     public function loadCountryIntoCombo($param_cat = '')
     {
         $r = '';
@@ -388,6 +387,65 @@ class DataSource
         }
 
         return $r;
+    }
+
+
+
+    public function addNewEvent($events)
+    {
+        $con = $this->getPDOConnection();
+
+        date_default_timezone_set('Africa/Lagos'); // Set the Default Time Zone:
+        $date = '';
+        $d = new DateTime($date);
+        $cdate = $d->format('Y-m-d h:i:s');
+
+        $con->beginTransaction();
+
+        try {
+
+            // prepare sql and bind parameters      
+            $query = "INSERT INTO tag (events) 
+                    VALUES (:events)";
+            $stmt = $con->prepare($query);
+            // prepare sql and bind parameters
+            $stmt->bindParam(':events', $events);
+            
+
+            $stmt->execute();
+            $con->commit();
+            $stmt->closeCursor();
+            return true;
+        } catch (Exception $e) {
+            $con->rollBack();
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+
+
+    public function getSetting()
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT username, apikey FROM setting WHERE sn = 1";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
     }
 
 

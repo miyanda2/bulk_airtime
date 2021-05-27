@@ -9,8 +9,11 @@ $conn = $db->getConnection();
 if(isset($_POST['save']))
 {	 
 	 
-	 $msg = $_POST['msg'];
-	 $sqlInsert = "UPDATE `message` SET `msg` = '$msg' WHERE `message`.`sn` = 1";
+	 $username = $_POST['username'];
+    $apikey = $_POST['apikey'];
+
+
+	 $sqlInsert = "UPDATE `setting` SET `username` = '$username' , `apikey` = '$apikey' ";
 	 
 	 if (mysqli_query($conn, $sqlInsert)) {
 		echo "successfully !";
@@ -20,7 +23,3 @@ if(isset($_POST['save']))
 	 }
 	 mysqli_close($conn);
 }
-
-?>
-
-
