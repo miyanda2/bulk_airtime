@@ -94,16 +94,20 @@ $conn = $data_source->getConnection();
             </div><br> -->
             <!--/.row-->
             <form method="post" action="process-set.php">
-                <div class="col-md-6 col-md-6">
+                <div class="col-lg-12 col-lg-12">
+                    <h2>Africastalking</h2>
                     <div class="panel panel-container">
-
-                        <div class="row-mt-4">
-                            <div class="col-md-6">
-                                <input type="text" value=<?php echo $data_source->getSetting()->username; ?> name="username">
+                        
+                        
+                            <div class="col-lg-12">
+                                <label>Username<br>
+                                <input type="text" name="username" value=<?php echo $data_source->getSetting()->username; ?> ></label>
                             </div>
-                            <div class="col-md-6">
-                                <input type="text" value=<?php echo $data_source->getSetting()->apikey; ?> name="apikey">
-                            </div><br>
+                            <div class="col-lg-12">
+                                 <label>Api Key<br>
+                                <input id="api" type="text"  name="apikey" value=<?php echo $data_source->getSetting()->apikey; ?>>
+                                     </label>
+                            <br>
 
 
 
@@ -111,10 +115,11 @@ $conn = $data_source->getConnection();
                         <!--/.row-->
                     </div>
                 </div>
+                
 
                 <div class="panel panel-default ">
                     <div class="row-mt-4">
-                        <div class="col-lg-12"><br>
+                        <div class="col-lg-12">
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                             </div>
@@ -122,14 +127,71 @@ $conn = $data_source->getConnection();
 
 
                     </div>
+                </div>
             </form>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
+                
+           
+            <!--/.row-->
+
+
+            <!--/.row-->
+
+            <!--/.col-->
+            <!-- <div class="col-sm-12">
+            <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
+        </div> -->
+        </div>
+        <br>
+                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+
+            <!-- <div class="row">
+                <div class="col-lg-12">
+                    <select name="" class="form-control">
+                        <option value='-1'></option>
+                        <option value='1'>
+                    </select>
+                </div>
+            </div><br> -->
+            <!--/.row-->
+            <form method="post" action="process-set.php">
+                <div class="col-lg-12 col-lg-12">
+                    <h2>Numverify</h2>
+                    <div class="panel panel-container">
+                        
+                        
+                            <div class="col-lg-12">
+                                <label>Username<br>
+                                <input type="text"  name="username" value=<?php echo $data_source->getSetting()->username; ?>></label>
+                            </div>
+                            <div class="col-lg-12">
+                                 <label>Api Key<br>
+                                <input id="api" type="text"   name="apikey" value=<?php echo $data_source->getSetting()->apikey; ?>>
+                                     </label>
+                            <br>
+
+
+
+                        </div>
+                        <!--/.row-->
+                    </div>
+                </div>
+                
+
+                <div class="panel panel-default ">
+                    <div class="row-mt-4">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
-            </div>
+            </form>
+                
+           
             <!--/.row-->
 
 
