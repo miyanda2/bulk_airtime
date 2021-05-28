@@ -87,17 +87,18 @@ $conn = $db->getConnection();
         </div>
         <!--/.row-->
 
-        <div class="col-md-9 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
-
-            <div class="col-md-6 col-md-6">
+        <div class="col-md-8 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
+            <label class="control-label">Message</label><br>
+            <div class="col-lg-12 col-lg-12">
                 <div class="panel panel-container" id="panel">
 
 
                     <div class="row">
                         <div class="col-lg-12">
+                             
                             <form method="post" action="process_msg.php">
 
-                                <label class="control-label">Message</label>
+                               
                                 <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required><?php echo $db->getMessage()->msg?></textarea>
                                 <br><br>
 

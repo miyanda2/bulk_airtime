@@ -106,9 +106,9 @@
                 <div class="panel panel-container" id="panel">
 
                     <div class="row-mt-4">
-                        <div class="col-md-12">
-                            Amount
-                            <input type="text" placeholder="">
+                        <div class="col-lg-12">
+                            Amount<br>
+                            <input id="input" type="text" placeholder="">
                         </div>
 
 
