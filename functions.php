@@ -443,12 +443,35 @@ class DataSource
 
 
     //get Africastalking credentials
-    public function getSetting()
+    public function getAFSetting()
     {
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT username, apikey FROM setting WHERE sn = 1";
+            $query = "SELECT af_username, af_apikey FROM setting WHERE sn = 1";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function getNVSetting()
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT nv_accesskey FROM setting WHERE sn = 1";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();

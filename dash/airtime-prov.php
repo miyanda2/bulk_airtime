@@ -97,16 +97,16 @@ $conn = $data_source->getConnection();
                 <div class="col-lg-12 col-lg-12">
                     <h2>Africastalking</h2>
                     <div class="panel panel-container">
-                        
-                        
-                            <div class="col-lg-12">
-                                <label>Username<br>
-                                <input type="text" name="username" value=<?php echo $data_source->getSetting()->username; ?> ></label>
-                            </div>
-                            <div class="col-lg-12">
-                                 <label>Api Key<br>
-                                <input id="api" type="text"  name="apikey" value=<?php echo $data_source->getSetting()->apikey; ?>>
-                                     </label>
+
+
+                        <div class="col-lg-12">
+                            <label>Username<br>
+                                <input type="text" name="username" value=<?php echo $data_source->getAFSetting()->af_username; ?>></label>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Api Key<br>
+                                <input id="api" type="text" name="apikey" value=<?php echo $data_source->getAFSetting()->af_apikey; ?>>
+                            </label>
                             <br>
 
 
@@ -115,8 +115,6 @@ $conn = $data_source->getConnection();
                         <!--/.row-->
                     </div>
                 </div>
-                
-
                 <div class="panel panel-default ">
                     <div class="row-mt-4">
                         <div class="col-lg-12">
@@ -128,9 +126,11 @@ $conn = $data_source->getConnection();
 
                     </div>
                 </div>
+
+
             </form>
-                
-           
+
+
             <!--/.row-->
 
 
@@ -142,7 +142,7 @@ $conn = $data_source->getConnection();
         </div> -->
         </div>
         <br>
-                <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
 
             <!-- <div class="row">
@@ -154,20 +154,17 @@ $conn = $data_source->getConnection();
                 </div>
             </div><br> -->
             <!--/.row-->
-            <form method="post" action="process-set.php">
+            <form method="post" action="process-NVset.php">
                 <div class="col-lg-12 col-lg-12">
                     <h2>Numverify</h2>
                     <div class="panel panel-container">
-                        
-                        
-                            <div class="col-lg-12">
-                                <label>Username<br>
-                                <input type="text"  name="username" value=<?php echo $data_source->getSetting()->username; ?>></label>
-                            </div>
-                            <div class="col-lg-12">
-                                 <label>Api Key<br>
-                                <input id="api" type="text"   name="apikey" value=<?php echo $data_source->getSetting()->apikey; ?>>
-                                     </label>
+
+
+
+                        <div class="col-lg-8">
+                            <label>Access Key<br>
+                                <input id="accesskey" type="text" name="accesskey" value=<?php echo $data_source->getNVSetting()->nv_accesskey; ?>>
+                            </label>
                             <br>
 
 
@@ -176,7 +173,7 @@ $conn = $data_source->getConnection();
                         <!--/.row-->
                     </div>
                 </div>
-                
+
 
                 <div class="panel panel-default ">
                     <div class="row-mt-4">
@@ -190,8 +187,8 @@ $conn = $data_source->getConnection();
                     </div>
                 </div>
             </form>
-                
-           
+
+
             <!--/.row-->
 
 

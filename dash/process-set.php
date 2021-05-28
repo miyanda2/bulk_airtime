@@ -13,7 +13,7 @@ if(isset($_POST['save']))
     $apikey = $_POST['apikey'];
 
 
-	 $sqlInsert = "UPDATE `setting` SET `username` = '$username' , `apikey` = '$apikey' ";
+	 $sqlInsert = "UPDATE `setting` SET `af_username` = '$username' , `af_apikey` = '$apikey' ";
 	 
 	 if (mysqli_query($conn, $sqlInsert)) {
 		echo "successfully !";

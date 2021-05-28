@@ -10,8 +10,8 @@ $conn = $data_source->getConnection();
 
 
 // Set your app credentials
-$username = $data_source->getSetting()->username;
-$apikey   = $data_source->getSetting()->apikey;
+$username = $data_source->getAFSetting()->username;
+$apikey   = $data_source->getAFSetting()->apikey;
 
 // Initialize the SDK
 $AT       = new AfricasTalking($username, $apikey);
