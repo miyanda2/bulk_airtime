@@ -12,7 +12,7 @@ if (isset($_POST["import"])) {
         $file = fopen($fileName, "r");
 
         $error = array();
-
+        //loop through all column and assign them to respective column in DB
         while (($column = fgetcsv($file, 10000, ",")) !== false) {
             $firstname = "";
             $lastname = "";
@@ -37,8 +37,10 @@ if (isset($_POST["import"])) {
                 $phonenumber = $db->cleanInput($column[2]);
             }
 
+            //parse $phonenumber to Numverify to get CountryCode and carrier
+
             // set API Access Key
-            $access_key = 'bb1eae61a7e24d7f88a2d862851305f7';
+            $access_key = $db->getNVSetting()->nv_accesskey;
 
             // set phone number
             $phone_number = $phonenumber;
@@ -59,9 +61,11 @@ if (isset($_POST["import"])) {
             $country_code = $validationResult['country_code'];
             $carrier = $validationResult['carrier'];
 
-            $data_source = new DataSource;
+            // $db = new DataSource;
 
-            $currency_code_object = $data_source->getCurrencyCode($country_code);
+            //parsed $country_code to get $currency_code to be used for disbursment with AfricaStalking
+
+            $currency_code_object = $db->getCurrencyCode($country_code);
 
             if ($currency_code_object != false) {
                 $currency_code = $currency_code_object->currencyCode;
@@ -78,7 +82,7 @@ if (isset($_POST["import"])) {
                     $message = "Problem in Importing CSV Data";
                 }
             }
-
+            sleep(1);
             /* $countrycode = "";
                         // if (isset($column[3])) {
                         //     $countrycode = mysqli_real_escape_string($conn, $column[3]);
@@ -302,7 +306,7 @@ if (isset($_POST["import"])) {
             $('#dispmsg').html('<div class="alert alert-info">Please wait...</div>');
 
             $.ajax({
-                url: './process-evebt.php',
+                url: './process/process-evebt.php',
                 type: 'POST',
                 data: formData,
                 success: function(msg) {

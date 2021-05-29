@@ -100,8 +100,7 @@
 
                 </div><br>
             </div>
-            <!--/.row-->
-            
+            <!--/.row-->   
             <div class="col-md-6 col-md-6">
                 <div class="panel panel-container" id="panel">
 
@@ -110,10 +109,6 @@
                             Amount<br>
                             <input id="input" type="text" placeholder="">
                         </div>
-
-
-
-
                     </div>
                     <!--/.row-->
                 </div>
@@ -136,21 +131,13 @@
                         </div>
                     </div>
                 </div>
-                <!--/.row-->
-
-
-                <!--/.row-->
-
-                <!--/.col-->
-                <!-- <div class="col-sm-12">
-            <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-        </div> -->
+             
             </div>
-            <!--/.row-->
         </div>
-        <!--/.row-->
     </div>
-    <!--/.main-->
+
+               
+
 
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

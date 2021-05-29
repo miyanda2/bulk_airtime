@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../functions.php';
+    require_once '../../functions.php';
 $data_source = new DataSource;
 $conn = $data_source->getConnection();
     //print_r($_POST); exit;

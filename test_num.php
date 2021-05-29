@@ -1,6 +1,12 @@
 <?php
+include_once './functions.php';
+$data_source = new DataSource;
+
+
+
+
 // set API Access Key
-$access_key = 'bb1eae61a7e24d7f88a2d862851305f7';
+$access_key = $data_source->getNVSetting()->nv_accesskey;
 
 // set phone number
 $phone_number = '+2348160317744';

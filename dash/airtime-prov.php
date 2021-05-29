@@ -1,13 +1,13 @@
 <?php
 
 require_once '../functions.php';
-
+//instance of DB connection
 $data_source = new DataSource;
 $conn = $data_source->getConnection();
 ?>
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +16,6 @@ $conn = $data_source->getConnection();
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/datepicker3.css" rel="stylesheet">
     <link href="css/airtime.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
 </head>
@@ -60,7 +59,7 @@ $conn = $data_source->getConnection();
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
-    <!--/.sidebar-->
+
 
     <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
@@ -73,32 +72,17 @@ $conn = $data_source->getConnection();
                 <li class="active">Config</li>
             </ol>
         </div>
-        <!--/.row-->
-
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Configuration</h1>
             </div>
         </div><br><br>
-        <!--/.row-->
+        <!--Africastalking section-->
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-
-
-            <!-- <div class="row">
-                <div class="col-lg-12">
-                    <select name="" class="form-control">
-                        <option value='-1'></option>
-                        <option value='1'>
-                    </select>
-                </div>
-            </div><br> -->
-            <!--/.row-->
-            <form method="post" action="process-set.php">
+            <form method="post" action="process/process-set.php">
                 <div class="col-lg-12 col-lg-12">
                     <h2>Africastalking</h2>
                     <div class="panel panel-container">
-
-
                         <div class="col-lg-12">
                             <label>Username<br>
                                 <input type="text" name="username" value=<?php echo $data_source->getAFSetting()->af_username; ?>></label>
@@ -108,11 +92,7 @@ $conn = $data_source->getConnection();
                                 <input id="api" type="text" name="apikey" value=<?php echo $data_source->getAFSetting()->af_apikey; ?>>
                             </label>
                             <br>
-
-
-
                         </div>
-                        <!--/.row-->
                     </div>
                 </div>
                 <div class="panel panel-default ">
@@ -122,59 +102,25 @@ $conn = $data_source->getConnection();
                                 <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
-
             </form>
-
-
-            <!--/.row-->
-
-
-            <!--/.row-->
-
-            <!--/.col-->
-            <!-- <div class="col-sm-12">
-            <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-        </div> -->
         </div>
         <br>
+        <!--NumVerify section-->
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-
-
-            <!-- <div class="row">
-                <div class="col-lg-12">
-                    <select name="" class="form-control">
-                        <option value='-1'></option>
-                        <option value='1'>
-                    </select>
-                </div>
-            </div><br> -->
-            <!--/.row-->
-            <form method="post" action="process-NVset.php">
+            <form method="post" action="./process/process-NVset.php">
                 <div class="col-lg-12 col-lg-12">
                     <h2>Numverify</h2>
                     <div class="panel panel-container">
-
-
-
                         <div class="col-lg-8">
                             <label>Access Key<br>
                                 <input id="accesskey" type="text" name="accesskey" value=<?php echo $data_source->getNVSetting()->nv_accesskey; ?>>
                             </label>
                             <br>
-
-
-
                         </div>
-                        <!--/.row-->
                     </div>
                 </div>
-
-
                 <div class="panel panel-default ">
                     <div class="row-mt-4">
                         <div class="col-lg-12">
@@ -182,27 +128,41 @@ $conn = $data_source->getConnection();
                                 <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </form>
-
-
-            <!--/.row-->
-
-
-            <!--/.row-->
-
-            <!--/.col-->
-            <!-- <div class="col-sm-12">
-            <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-        </div> -->
         </div>
-        <!--/.row-->
-    </div>
-    <!--/.main-->
 
+        <!--nexmo section-->
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <form method="post" action="./process/process-NXset.php">
+                <div class="col-lg-12 col-lg-12">
+                    <h2>Nexmo</h2>
+                    <div class="panel panel-container">
+                        <div class="col-lg-12">
+                            <label>Public Key<br>
+                                <input type="text" name="pubkey" value=<?php echo $data_source->getNXSetting()->nx_pubkey; ?>></label>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Secret Key<br>
+                                <input id="api" type="text" name="seckey" value=<?php echo $data_source->getNXSetting()->nx_seckey; ?>>
+                            </label>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default ">
+                    <div class="row-mt-4">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/chart.min.js"></script>
@@ -211,8 +171,5 @@ $conn = $data_source->getConnection();
     <script src="js/easypiechart-data.js"></script>
     <script src="js/bootstrap-datepicker.js"></script>
     <script src="js/custom.js"></script>
-
-
 </body>
-
 </html>

@@ -1,16 +1,11 @@
 <?php
-
 require_once '../functions.php';
-
 $db = new DataSource();
 $conn = $db->getConnection();
-
 ?>
-
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,8 +14,6 @@ $conn = $db->getConnection();
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/datepicker3.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-
-
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
 </head>
@@ -38,7 +31,7 @@ $conn = $db->getConnection();
                 </ul>
             </div>
         </div>
-        <!-- /.container-fluid -->
+       
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
         <div class="profile-sidebar">
@@ -65,7 +58,7 @@ $conn = $db->getConnection();
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
-    <!--/.sidebar-->
+    
 
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
@@ -77,35 +70,23 @@ $conn = $db->getConnection();
                 </li>
                 <li class="active">Config</li>
             </ol>
-        </div>
-        <!--/.row-->
-
+        </div>   
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Configuration</h1>
             </div>
         </div>
-        <!--/.row-->
-
         <div class="col-md-8 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
             <label class="control-label">Message</label><br>
             <div class="col-lg-12 col-lg-12">
                 <div class="panel panel-container" id="panel">
-
-
                     <div class="row">
-                        <div class="col-lg-12">
-                             
-                            <form method="post" action="process_msg.php">
-
-                               
+                        <div class="col-lg-12">           
+                            <form method="post" action="./process/process_msg.php">              
                                 <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required><?php echo $db->getMessage()->msg?></textarea>
                                 <br><br>
-
-
-                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
-
-                            </form>
+                              <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
+                           </form>
                         </div>
                     </div>
                 </div>

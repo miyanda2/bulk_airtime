@@ -257,7 +257,7 @@ class DataSource
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT COUNT(DISTINCT country) AS total FROM phone_number GROUP BY country";
+            $query = "SELECT COUNT(DISTINCT(country)) AS total FROM phone_number";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
@@ -472,6 +472,29 @@ class DataSource
 
         try {
             $query = "SELECT nv_accesskey FROM setting WHERE sn = 1";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function getNXSetting()
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT nx_pubkey, nx_seckey FROM setting WHERE sn = 1";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
