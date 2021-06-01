@@ -82,7 +82,7 @@ if (isset($_POST["import"])) {
                     $message = "Problem in Importing CSV Data";
                 }
             }
-            sleep(1);
+            sleep(2);
             /* $countrycode = "";
                         // if (isset($column[3])) {
                         //     $countrycode = mysqli_real_escape_string($conn, $column[3]);
@@ -128,6 +128,9 @@ if (isset($_POST["import"])) {
 
     <!--Custom Font-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+    
     <script src="js/jquery-3.2.1.min.js"></script>
 </head>
 
@@ -244,7 +247,7 @@ if (isset($_POST["import"])) {
                         $result = $db->select($sqlSelect);
                         if (!empty($result)) {
                         ?>
-                            <table class="table" id="userTable">
+                            <table class="myDataTable table table-hover table-striped table-bordered" id="userTable">
 
                                 <thead>
                                     <tr>
@@ -296,6 +299,13 @@ if (isset($_POST["import"])) {
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
 
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+
     <script type="text/javascript">
         $(document).on('click', '#btnAddEvent', function(e) {
             e.preventDefault();
@@ -341,6 +351,15 @@ if (isset($_POST["import"])) {
                     return false;
                 }
                 return true;
+            });
+
+            $('#userTable').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
             });
         });
     </script>

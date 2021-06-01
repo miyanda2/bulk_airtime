@@ -36,10 +36,6 @@ class DataSource
         $username = 'root';
         $password = "";
 
-        /*$host = "127.0.0.1";
-        $db_name = "dbamigwfyejsdq";
-        $username = "uly7ksebwl9tu ";
-        $password = "p2rgw8wfeznh";*/
 
         try{
             $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db_name, $username, $password);
@@ -441,6 +437,29 @@ class DataSource
         }
     }
 
+    public function getEventCountryList($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT * FROM phone_number WHERE tag_id = '".$event_id."' GROUP BY country_code";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchAll();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
 
     //get Africastalking credentials
     public function getAFSetting()
@@ -494,7 +513,7 @@ class DataSource
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT nx_pubkey, nx_seckey FROM setting WHERE sn = 1";
+            $query = "SELECT nx_apikey, nx_apisec FROM setting WHERE sn = 1";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
@@ -540,9 +559,80 @@ class DataSource
 
     }
 
+    public function getEventAirtimeList($event_id, $country_code)
+
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT phone_number FROM phone_number WHERE tag_id = '" . $event_id . "' AND country_code = '" . $country_code . "'";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchAll();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function getEventCountrycount($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT country, COUNT(sn) AS total FROM phone_number WHERE tag_id = '" . $event_id . "'  GROUP BY country ORDER BY COUNT(sn) DESC";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchAll();
+                return $stmt;
+            } else {
+                // return false;
+                return $count;
+            }
+        } catch (Exception $e) {
+            // return false;
+            return $e->getMessage();
+        }
+    }
+
+    public function getEventAirtimeHistory($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT * FROM airtime_history AS ah INNER JOIN phone_number AS p ON ah.phone_id = p.sn WHERE ah.tag_id = '" . $event_id . "'  ORDER BY attempt DESC";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchAll();
+                return $stmt;
+            } else {
+                // return false;
+                return $count;
+            }
+        } catch (Exception $e) {
+            // return false;
+            return $e->getMessage();
+        }
+    }
+
 }
 
 
 
 
 
+//SELECT country, COUNT(sn) AS total FROM phone_number WHERE tag_id = '" . $event_id . "'  GROUP BY country ORDER BY COUNT(sn) DESC

@@ -1,7 +1,23 @@
 <?php
-require_once '../functions.php';
-$db = new DataSource();
-$conn = $db->getConnection();
+    require_once '../functions.php';
+    $db = new DataSource();
+    $conn = $db->getConnection();
+
+
+    if(isset($_POST['save']))
+    {    
+         
+         $msg = $_POST['msg'];
+         $sqlInsert = "UPDATE message SET msg = '".$msg."' WHERE sn = 1";
+         
+         if (mysqli_query($conn, $sqlInsert)) {
+            echo "<script>alert('Message Successfully Saved!')</script>";
+         } else {
+            echo "Error: " . $sqlInsert . "" . mysqli_error($conn);
+         }
+         mysqli_close($conn);
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -76,13 +92,16 @@ $conn = $db->getConnection();
                 <h1 class="page-header">Configuration</h1>
             </div>
         </div>
+
         <div class="col-md-8 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
+            
+
             <label class="control-label">Message</label><br>
             <div class="col-lg-12 col-lg-12">
                 <div class="panel panel-container" id="panel">
                     <div class="row">
                         <div class="col-lg-12">           
-                            <form method="post" action="./process/process_msg.php">              
+                            <form method="post" action="">         
                                 <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required><?php echo $db->getMessage()->msg?></textarea>
                                 <br><br>
                               <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>

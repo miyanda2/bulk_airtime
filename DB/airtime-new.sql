@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2021 at 12:08 AM
+-- Generation Time: May 29, 2021 at 03:36 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -326,7 +326,7 @@ CREATE TABLE `message` (
 --
 
 INSERT INTO `message` (`sn`, `tag_id`, `msg`) VALUES
-(1, 1, 'Testsdd');
+(1, 1, 'Testsddxx');
 
 -- --------------------------------------------------------
 
@@ -352,29 +352,8 @@ CREATE TABLE `phone_number` (
 --
 
 INSERT INTO `phone_number` (`sn`, `tag_id`, `first_name`, `last_name`, `phone_number`, `country_code`, `country`, `carrier`, `currency_code`, `date_created`) VALUES
-(1, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:44:53'),
-(2, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:32'),
-(3, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:34'),
-(4, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:37'),
-(5, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:38'),
-(6, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:41'),
-(7, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:43'),
-(8, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:44'),
-(9, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:46'),
-(10, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:49'),
-(11, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:50'),
-(12, 3, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 09:51:53'),
-(13, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:17:16'),
-(14, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:19:16'),
-(15, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:50:13'),
-(16, 6, 'Boss test', 'Boss', '2348160317744', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:50:16'),
-(17, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:50:52'),
-(18, 6, 'Boss test', 'Boss', '31638734411', 'NL', 'Netherlands', 'T-Mobile Netherlands BV', 'EUR', '2021-05-28 10:50:54'),
-(19, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:51:16'),
-(20, 6, 'Boss test', 'Boss', '31638734411', 'NL', 'Netherlands', 'T-Mobile Netherlands BV', 'EUR', '2021-05-28 10:51:18'),
-(21, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:51:48'),
-(22, 6, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-28 10:52:05'),
-(23, 6, 'Boss test', 'Boss', '31638734411', 'NL', 'Netherlands', 'T-Mobile Netherlands BV', 'EUR', '2021-05-28 10:52:06');
+(4, 1, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-29 01:58:35'),
+(5, 1, 'Boss test', 'Boss', '31638734411', 'NL', 'Netherlands', 'T-Mobile Netherlands BV', 'EUR', '2021-05-29 01:58:38');
 
 -- --------------------------------------------------------
 
@@ -386,15 +365,17 @@ CREATE TABLE `setting` (
   `sn` int(11) NOT NULL,
   `af_username` varchar(50) NOT NULL,
   `af_apikey` varchar(150) NOT NULL,
-  `nv_accesskey` varchar(50) NOT NULL
+  `nv_accesskey` varchar(50) NOT NULL,
+  `nx_apikey` varchar(50) NOT NULL,
+  `nx_apisec` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `setting`
 --
 
-INSERT INTO `setting` (`sn`, `af_username`, `af_apikey`, `nv_accesskey`) VALUES
-(1, 'sandbox', '5eaf04cdee69c7f56474f2ddc9b30edcabe7f8a4ee1f70f4b0859ceaab8501d6', '7e66b30bcfed5b29742be83d2ecc7cb8');
+INSERT INTO `setting` (`sn`, `af_username`, `af_apikey`, `nv_accesskey`, `nx_apikey`, `nx_apisec`) VALUES
+(1, 'sandbox', '5eaf04cdee69c7f56474f2ddc9b30edcabe7f8a4ee1f70f4b0859ceaab8501d6', '7e66b30bcfed5b29742be83d2ecc7cb8', '3d78adaf', 'NfF9SOzqxGvPgdjv');
 
 -- --------------------------------------------------------
 
@@ -412,12 +393,9 @@ CREATE TABLE `tag` (
 --
 
 INSERT INTO `tag` (`sn`, `event`) VALUES
-(1, 'test1'),
-(2, 'test2'),
-(3, 'hello1'),
-(4, 'hello2'),
-(5, 'testnn'),
-(6, 'peter');
+(1, 'Event Test 1'),
+(2, 'Event Test 2'),
+(3, 'Event test 3');
 
 -- --------------------------------------------------------
 
@@ -500,7 +478,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `phone_number`
 --
 ALTER TABLE `phone_number`
-  MODIFY `sn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `sn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `setting`
@@ -512,7 +490,7 @@ ALTER TABLE `setting`
 -- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `sn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `sn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`

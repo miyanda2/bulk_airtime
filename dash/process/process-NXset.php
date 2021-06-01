@@ -8,11 +8,11 @@ $conn = $db->getConnection();
 
 if (isset($_POST['save'])) {
 
-    $pubkey = $_POST['pubkey'];
-    $seckey = $_POST['seckey'];
+    $apikey = $_POST['apikey'];
+    $apisek = $_POST['apisec'];
 
 
-    $sqlInsert = "UPDATE `setting` SET `nx_pubkey` = '$pubkey' , `nx_seckey` = '$seckey' ";
+    $sqlInsert = "UPDATE `setting` SET `nx_apikey` = '$apikey' , `nx_apisec` = '$apisec' ";
 
     if (mysqli_query($conn, $sqlInsert)) {
         echo "successfully !";

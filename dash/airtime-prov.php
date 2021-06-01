@@ -140,12 +140,12 @@ $conn = $data_source->getConnection();
                     <h2>Nexmo</h2>
                     <div class="panel panel-container">
                         <div class="col-lg-12">
-                            <label>Public Key<br>
-                                <input type="text" name="pubkey" value=<?php echo $data_source->getNXSetting()->nx_pubkey; ?>></label>
+                            <label>API Key<br>
+                                <input type="text" name="apikey" value=<?php echo $data_source->getNXSetting()->nx_apikey; ?>></label>
                         </div>
                         <div class="col-lg-12">
-                            <label>Secret Key<br>
-                                <input id="api" type="text" name="seckey" value=<?php echo $data_source->getNXSetting()->nx_seckey; ?>>
+                            <label>API Secret<br>
+                                <input id="api" type="text" name="apisec" value=<?php echo $data_source->getNXSetting()->nx_apisec; ?>>
                             </label>
                             <br>
                         </div>

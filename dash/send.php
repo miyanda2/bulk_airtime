@@ -1,6 +1,77 @@
 <?php
-    require_once '../functions.php';
-    $db = new DataSource();
+                            require '../vendor/autoload.php';
+
+                            use AfricasTalking\SDK\AfricasTalking;
+require_once '../functions.php';
+$db = new DataSource();
+
+
+if (isset($_POST["send"])) {
+
+
+
+    
+
+    $tag = $db->cleanInput($_POST['tag']);
+    $country = $db->cleanInput($_POST['country']);
+    $amount = $db->cleanInput($_POST['amount']);
+
+
+
+
+    //require_once '../functions.php';
+
+    $data_source = new DataSource;
+    $conn = $data_source->getConnection();
+
+
+
+    // Set your app credentials
+    $username = $data_source->getAFSetting()->af_username;
+    $apikey   = $data_source->getAFSetting()->af_apikey;
+
+    // Initialize the SDK
+    $AT       = new AfricasTalking($username, $apikey);
+
+
+
+    // Get the airtime service
+    $airtime  = $AT->airtime();
+
+
+
+    $currency_code_object = $db->getCurrencyCode($country);
+    $phone_number = $db->getEventAirtimeList($tag, $country);
+    $currency_code = $currency_code_object->currencyCode;
+    for ($i = 0; $i < count($phone_number); $i++) {
+
+        $recipients = [[
+            "phoneNumber"  => $phone_number[$i]['phone_number'],
+            "currencyCode" => $currency_code,
+            "amount"       => $amount
+        ]];
+    }
+
+    // Set the phone number, currency code and amount in the format below
+
+
+    try {
+        // That's it, hit send and we'll take care of the rest
+        $results = $airtime->send([
+            "recipients" => $recipients
+
+        ]);
+
+        print_r($results);
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+   
+
+    
+    sleep(2);
+    
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,9 +95,9 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span></button>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span></button>
                 <a class="navbar-brand" href="#"><span>Bulk-Airtime </span>Admin</a>
                 <ul class="nav navbar-top-links navbar-right">
 
@@ -84,64 +155,121 @@
             </div>
         </div>
         <!--/.row-->
-        <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-            <div class="col-lg-12 grid">
-                <div class="position-relative form-group">
-                    <select name="tag" class="form-control">
-                        <?php echo $db->loadTagsIntoCombo(); ?>                        
-                    </select>
-                </div>
-                <div class="position-relative form-group">
-                    <select name="tag" class="form-control">
-                        <?php echo $db->loadCountryIntoCombo(); ?>                        
-                    </select>
-                </div>
-                <div class="position-relative form-group">
+        <form action="" method="post">
+        
+            <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+                <div class="col-lg-12 grid">
+                    <div class="position-relative form-group">
+                        <select name="tag" class="form-control" id="tag">
+                            <?php echo $db->loadTagsIntoCombo(); ?>
+                        </select>
+                    </div>
+                    <div class="position-relative form-group">
+                        <select name="country" class="form-control" id="country">
+                            <?php echo $db->loadCountryIntoCombo(); ?>
+                        </select>
+                    </div>
+                    <div class="position-relative form-group">
 
-                </div><br>
-            </div>
-            <!--/.row-->   
-            <div class="col-md-6 col-md-6">
-                <div class="panel panel-container" id="panel">
+                    </div><br>
+                </div>
+                <!--/.row-->
+                <div class="col-md-6 col-md-6">
+                    <div class="panel panel-container" id="panel">
 
+                        <div class="row-mt-4">
+                            <div class="col-lg-12">
+                                Amount<br>
+                                <input id="input" type="text" placeholder="" name="amount">
+                            </div>
+                        </div>
+                        <!--/.row-->
+                    </div>
+                </div>
+                <div class="panel panel-default ">
                     <div class="row-mt-4">
-                        <div class="col-lg-12">
-                            Amount<br>
-                            <input id="input" type="text" placeholder="">
+                        <div class="col-lg-12"><br>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" name="send" type="submit">Send<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                            </div>
                         </div>
                     </div>
-                    <!--/.row-->
+
                 </div>
             </div>
-            <div class="panel panel-default ">
-                <div class="row-mt-4">
-                    <div class="col-lg-12"><br>
-                        <div class="form-group">
-                            <button class="btn btn-primary" type="submit" name="send" type="submit">Send<span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-
-                        </div>
-                    </div>
-                </div>
-             
-            </div>
-        </div>
+        </form>
     </div>
 
-               
+
 
 
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
+
+    <script type="text/javascript">
+        function formatErrorMessage(jqXHR, exception) {
+            if (jqXHR.status === 0) {
+                return ('Not connected.\nPlease verify your network connection.');
+            } else if (jqXHR.status == 404) {
+                return ('The requested page not found. [404]');
+            } else if (jqXHR.status == 500) {
+                return ('Internal Server Error [500].');
+            } else if (exception === 'parsererror') {
+                return ('Requested JSON parse failed.');
+            } else if (exception === 'timeout') {
+                return ('Time out error.');
+            } else if (exception === 'abort') {
+                return ('Ajax request aborted.');
+            } else {
+                return ('Uncaught Error.\n' + jqXHR.responseText);
+            }
+        }
+
+        $(document).ready(function() {
+
+            $(document).on('change', '#tag', function(e) {
+                e.preventDefault();
+
+                //get user input
+                var selected_event = $("#tag option:selected").val();
+
+                if (selected_event == '-1') {
+                    alert('please select an event');
+                    return false;
+                }
+
+                $.ajax({
+                    url: './process/ajaxGetEventCountries.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: '&event=' + selected_event,
+                    success: function(msg) {
+                        if (msg.type == 'success') {
+                            $('#country').html(msg.message);
+                        } else {
+                            alert(msg.message);
+                        }
+                    },
+                    error: function(x, e) {
+                        alert(formatErrorMessage(x, e));
+                    }
+                });
+            });
+
+        });
+    </script>
+
 
 
 </body>

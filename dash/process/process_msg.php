@@ -10,7 +10,7 @@ if(isset($_POST['save']))
 {	 
 	 
 	 $msg = $_POST['msg'];
-	 $sqlInsert = "UPDATE `message` SET `msg` = '$msg' WHERE `message`.`sn` = 1";
+	 $sqlInsert = "UPDATE message SET msg = '".$msg."' WHERE sn = 1";
 	 
 	 if (mysqli_query($conn, $sqlInsert)) {
 		echo "successfully !";
