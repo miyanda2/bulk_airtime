@@ -16,13 +16,13 @@
             
             $response = $data_source->getEventCountryList($event);
             if($response != false){
-                $list = '';
+                $list = '<option value="-1">Select Country </option>';
                 for($i = 0; $i < count($response); $i++){
                     $list .= '<option value="'.$response[$i]['country_code'].'">'.$response[$i]['country'].'</option>';
                 }
                 echo json_encode(array('type' => 'success', 'message' => ''.$list.''));
             }else{
-                echo json_encode(array('type' => 'error', 'message' => 'Error Encountered'));
+                echo json_encode(array('type' => 'error', 'message' => 'No Record Found'));
             }            
         }
 	}else{

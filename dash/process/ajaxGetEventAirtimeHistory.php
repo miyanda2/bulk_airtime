@@ -19,9 +19,9 @@
             if($response != false){
                 $list = '';
                 for($i = 0; $i < count($response); $i++){
-                    $list .= '<tr><td>'.($i + 1).'</td><td>'.$response[$i]['phone_number'].'</td><td>'.$response[$i]['amount'].'</td><td>'.$response[$i]['success'].'</td><td>'.$response[$i]['total_attempts'].'</td><td>'.$response[$i]['last_attempt'].'</td><td>'.$response[$i]['sms_sent'].'</td></tr>';
+                    $list .= '<tr><td>'.($i + 1).'</td><td>'.$response[$i]['phone_number'].'</td><td>'.$response[$i]['amount'].'</td><td>'.$response[$i]['success'].'</td><td>'.$response[$i]['attempt'].'</td><td>'.$response[$i]['last_attempt'].'</td><td>'.$response[$i]['sms_sent'].'</td></tr>';
                 }
-                echo json_encode(array('type' => 'success', 'message' => ''.$list.''));
+                echo json_encode(array('type' => 'success', 'message' => $list));
             }else{
                 echo json_encode(array('type' => 'error', 'message' => 'No Record Found'));
             }            

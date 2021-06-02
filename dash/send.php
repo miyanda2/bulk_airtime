@@ -1,77 +1,116 @@
 <?php
-                            require '../vendor/autoload.php';
+    require '../vendor/autoload.php';
+    use AfricasTalking\SDK\AfricasTalking;
 
-                            use AfricasTalking\SDK\AfricasTalking;
-require_once '../functions.php';
-$db = new DataSource();
+    require_once '../functions.php';
+    $db = new DataSource();
+
+    $response_message = '';
+
+    if (isset($_POST["send"])) {
+
+        $tag = $db->cleanInput($_POST['tag']);
+        $country = $db->cleanInput($_POST['country']);
+        $amount = $db->cleanInput($_POST['amount']);
+
+        $conn = $db->getConnection();
+
+        // Set your app credentials
+        $username = $db->getAFSetting()->af_username;
+        $apikey   = $db->getAFSetting()->af_apikey;
+
+        // Initialize the SDK
+        $AT = new AfricasTalking($username, $apikey);
+
+        // Get the airtime service
+        $airtime  = $AT->airtime();
+
+        $basic  = new \Vonage\Client\Credentials\Basic($db->getNXSetting()->nx_apikey, $db->getNXSetting()->nx_apisec);
+        $client = new \Vonage\Client($basic);
+
+        $currency_code_object = $db->getCurrencyCode($country);
+        $phone_number = $db->getEventAirtimeList($tag, $country);
+        $currency_code = $currency_code_object->currencyCode;
+
+        $recipients = [];
+        $sent_counter = 0;
+        $failed_counter = 0;
+        $sms_message = $db->getMessage()->msg;
+        $event_tag = $db->getEventById($tag);
+
+        for ($i = 0; $i < count($phone_number); $i++) {
+
+            /*array_push($recipients,[
+                            "phoneNumber"  => $phone_number[$i]['phone_number'],
+                            "currencyCode" => $currency_code,
+                            "amount"       => $amount
+                        ]);*/
+            $recipients = [[
+                            "phoneNumber"  => $phone_number[$i]['phone_number'],
+                            "currencyCode" => $currency_code,
+                            "amount"       => $amount
+                        ]];
+
+            try {
+                // That's it, hit send and we'll take care of the rest
+                $results = $airtime->send([
+                    "recipients" => $recipients
+
+                ]);
+
+                $sms_message = str_replace('&&username', 'Peter', $phone_number[$i]['first_name']);
+                $sms_message = str_replace('&&amount', 'Peter', $amount);
+                $sms_message = str_replace('&&event', 'Peter', $event_tag);
+
+                if($results['status'] == 'success'){
+                    $sms_sent = 0;
+                    $attempt = 1;
+                    $last_attempt = 1;
+                    $success = 1;
+
+                    $sms_response = $client->sms()->send(
+                        new \Vonage\SMS\Message\SMS($phone_number[$i]['phone_number'], $event_tag, $sms_message)
+                    );
+
+                    $sms_status = $sms_response->current();
+
+                    if ($sms_status->getStatus() == 0) {
+                        $sms_sent = 1;
+                    }
+
+                    $save_response = $db->saveAirtimeHistory($phone_number[$i]['tag_id'], $phone_number[$i]['sn'], $amount, $success, $attempt, $last_attempt, $sms_sent);  
+                    $sent_counter++;                  
+                }else{
+                    $sms_sent = 0;
+                    $attempt = 1;
+                    $last_attempt = 1;
+                    $success = 0;
+                    $save_response = $db->saveAirtimeHistory($phone_number[$i]['tag_id'], $phone_number[$i]['sn'], $amount, $success, $attempt, $last_attempt, $sms_sent);
+                    $failed_counter++;
+                }
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+
+            sleep(1);
+        }
+
+        $response_message = '<div class="alert alert-info">'.$sent_counter.' Airtime Sent Successfully. '.$failed_counter.' Failed</div>';
 
 
-if (isset($_POST["send"])) {
+        /*try {
+            // That's it, hit send and we'll take care of the rest
+            $results = $airtime->send([
+                "recipients" => $recipients
 
+            ]);
 
-
-    
-
-    $tag = $db->cleanInput($_POST['tag']);
-    $country = $db->cleanInput($_POST['country']);
-    $amount = $db->cleanInput($_POST['amount']);
-
-
-
-
-    //require_once '../functions.php';
-
-    $data_source = new DataSource;
-    $conn = $data_source->getConnection();
-
-
-
-    // Set your app credentials
-    $username = $data_source->getAFSetting()->af_username;
-    $apikey   = $data_source->getAFSetting()->af_apikey;
-
-    // Initialize the SDK
-    $AT       = new AfricasTalking($username, $apikey);
-
-
-
-    // Get the airtime service
-    $airtime  = $AT->airtime();
-
-
-
-    $currency_code_object = $db->getCurrencyCode($country);
-    $phone_number = $db->getEventAirtimeList($tag, $country);
-    $currency_code = $currency_code_object->currencyCode;
-    for ($i = 0; $i < count($phone_number); $i++) {
-
-        $recipients = [[
-            "phoneNumber"  => $phone_number[$i]['phone_number'],
-            "currencyCode" => $currency_code,
-            "amount"       => $amount
-        ]];
+            print_r($results);
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }*/
+        
     }
-
-    // Set the phone number, currency code and amount in the format below
-
-
-    try {
-        // That's it, hit send and we'll take care of the rest
-        $results = $airtime->send([
-            "recipients" => $recipients
-
-        ]);
-
-        print_r($results);
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
-    }
-   
-
-    
-    sleep(2);
-    
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -155,6 +194,9 @@ if (isset($_POST["send"])) {
             </div>
         </div>
         <!--/.row-->
+        <?php
+            echo $response_message;
+        ?>
         <form action="" method="post">
         
             <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">

@@ -17,7 +17,7 @@ class DataSource
     
     public function getConnection()
     {
-        $conn = new \mysqli(self::HOST, self::USERNAME, self::PASSWORD, self::DATABASENAME);
+        $conn = new mysqli(self::HOST, self::USERNAME, self::PASSWORD, self::DATABASENAME);
 
         if (mysqli_connect_errno()) {
             trigger_error("Problem with connecting to database.");
@@ -36,6 +36,10 @@ class DataSource
         $username = 'root';
         $password = "";
 
+        /*$host = "127.0.0.1";
+        $db_name = "dbamigwfyejsdq";
+        $username = "uly7ksebwl9tu ";
+        $password = "p2rgw8wfeznh";*/
 
         try{
             $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db_name, $username, $password);
@@ -159,7 +163,7 @@ class DataSource
     }
 
 
-        // Check if current use us Valid
+    // Check if current use us Valid
     public function isUserLoggedIn($path)
     {
         global $sessionHandler;
@@ -171,8 +175,7 @@ class DataSource
         }
     }
 
-
-        // check if login is Valid
+    // check if login is Valid
     public function isLoginValid($username, $password)
     {
         $con = $this->getPDOConnection();
@@ -272,8 +275,7 @@ class DataSource
     }
 
     
-   // Save imported Phone number into DB  
-
+    // Save imported Phone number into DB  
     public function saveNumber($tag_id, $first_name, $last_name, $phone_number, $country_code, $country, $carrier, $currency_code)
     {
         $con = $this->getPDOConnection();
@@ -316,7 +318,46 @@ class DataSource
         }       
     }
 
+    // Save airtime history record  
+    public function saveAirtimeHistory($tag_id, $phone_id, $amount, $success, $attempt, $last_attempt, $sms_sent)
+    {
+        $con = $this->getPDOConnection();
 
+        date_default_timezone_set('Africa/Lagos'); // Set the Default Time Zone:
+        $date = '';
+        $d = new DateTime($date);
+        $cdate = $d->format('Y-m-d h:i:s');
+
+        $con->beginTransaction();
+
+
+        try{
+
+            $query1 = "INSERT INTO airtime_history (tag_id, phone_id, amount, success, attempt, last_attempt, sms_sent) 
+                    VALUES (:tag_id, :phone_id, :amount, :success, :attempt, :last_attempt, :sms_sent)";
+            $stmt1 = $con->prepare($query1);
+            // prepare sql and bind parameters
+            $stmt1->bindParam(':tag_id', $tag_id);
+            $stmt1->bindParam(':phone_id', $phone_id);
+            $stmt1->bindParam(':amount', $amount);
+            $stmt1->bindParam(':success', $success);
+            $stmt1->bindParam(':attempt', $attempt);
+            $stmt1->bindParam(':last_attempt', $last_attempt);
+            $stmt1->bindParam(':sms_sent', $sms_sent);
+            
+            $stmt1->execute();                 
+            $stmt1->closeCursor();
+
+            $con->commit();
+
+            return 'success';
+
+        } catch (Exception $e) {
+            $con->rollBack();
+            return false;
+            //return $e->getMessage();
+        }       
+    }
 
 
     //load Event into dropdown
@@ -403,8 +444,7 @@ class DataSource
         return $r;
     }
 
-
-        //add new events
+    //add new events
     public function addNewEvent($events)
     {
         $con = $this->getPDOConnection();
@@ -442,7 +482,7 @@ class DataSource
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT * FROM phone_number WHERE tag_id = '".$event_id."' GROUP BY country_code";
+            $query = "SELECT ANY_VALUE(country_code) AS country_code, ANY_VALUE(country) AS country, COUNT(sn)  FROM phone_number WHERE tag_id = '".$event_id."' GROUP BY currency_code ORDER BY COUNT(sn) DESC";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
@@ -555,17 +595,16 @@ class DataSource
         }
     }
 
-    public function sendSMS(){
-
+    public function sendSMS()
+    {
     }
 
     public function getEventAirtimeList($event_id, $country_code)
-
     {
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT phone_number FROM phone_number WHERE tag_id = '" . $event_id . "' AND country_code = '" . $country_code . "'";
+            $query = "SELECT * FROM phone_number WHERE tag_id = '" . $event_id . "' AND country_code = '" . $country_code . "'";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
@@ -626,6 +665,29 @@ class DataSource
         } catch (Exception $e) {
             // return false;
             return $e->getMessage();
+        }
+    }
+
+    public function getEventById($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT event FROM tag WHERE sn = '".$event_id."'";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchObject();
+                return $stmt->event;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
         }
     }
 
