@@ -58,10 +58,11 @@
 
                 ]);
 
-                $sms_message = str_replace('&&username', 'Peter', $phone_number[$i]['first_name']);
-                $sms_message = str_replace('&&amount', 'Peter', $amount);
-                $sms_message = str_replace('&&event', 'Peter', $event_tag);
+            $sms_message = str_replace('&&name', $phone_number[$i]['first_name'] , $sms_message);
+            $sms_message = str_replace('&&amount', $amount, $sms_message);
+            $sms_message = str_replace('&&event', $event_tag, $sms_message);
 
+            
                 if($results['status'] == 'success'){
                     $sms_sent = 0;
                     $attempt = 1;
@@ -149,14 +150,7 @@
         <!-- /.container-fluid -->
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        <div class="profile-sidebar">
-
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">Username</div>
-
-            </div>
-            <div class="clear"></div>
-        </div>
+        
         <div class="divider"></div>
         <form role="search">
             <div class="form-group">
@@ -166,7 +160,7 @@
         <ul class="nav menu">
             <li><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
             <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
-            <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
+            <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li class="active"><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
 

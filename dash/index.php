@@ -78,12 +78,7 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
 
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        <div class="profile-sidebar">
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">Username</div>
-            </div>
-            <div class="clear"></div>
-        </div>
+       
         <div class="divider"></div>
         <form role="search">
             <div class="form-group">
@@ -93,7 +88,7 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
         <ul class="nav menu">
             <li class="active"><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
             <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
-            <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
+            <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
 
@@ -203,8 +198,7 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
                             <th scope="col">Phone Number</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Is Successful</th>
-                            <th scope="col">Total Attempts</th>
-                            <th scope="col">Last Attempt</th>
+                            
                             <th scope="col">Is SMS Sent</th>
                         </tr>
                     </thead>

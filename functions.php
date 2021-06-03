@@ -595,9 +595,7 @@ class DataSource
         }
     }
 
-    public function sendSMS()
-    {
-    }
+  
 
     public function getEventAirtimeList($event_id, $country_code)
     {

@@ -37,12 +37,7 @@ $conn = $data_source->getConnection();
     </nav>
 
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        <div class="profile-sidebar">
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">Username</div>
-            </div>
-            <div class="clear"></div>
-        </div>
+       
         <div class="divider"></div>
         <form role="search">
             <div class="form-group">
@@ -52,7 +47,7 @@ $conn = $data_source->getConnection();
         <ul class="nav menu">
             <li><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
             <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
-            <li class="active"><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>Airtime Provider</a></li>
+            <li class="active"><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
 
@@ -74,7 +69,7 @@ $conn = $data_source->getConnection();
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Configuration</h1>
+                <h1 class="page-header">API Keys</h1>
             </div>
         </div><br><br>
         <!--Africastalking section-->
