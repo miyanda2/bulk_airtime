@@ -5,15 +5,17 @@
     //print_r($_POST); exit;
 
 	if(isset($_POST)){
-		$username = cleanInput($_POST['user']);
-        $password = cleanInput($_POST['pw']);
+        $db = new DataSource();
+
+		$username = $db->cleanInput($_POST['user']);
+        $password = $db->cleanInput($_POST['pw']);
 
         if( strlen($username) < 3 || strlen($password) < 5)
         {
             $err = 'Please fill in all fields';
         }else{
-            $response = isLoginValid($username, $password);
-            if($response){
+            $response = $db->isLoginValid($username, $password);
+            if($response == 'success'){
                 $sessionHandler->createSession('isLoggedIn', 'Yes');
                 $sessionHandler->createSession('adusername', $username);
 

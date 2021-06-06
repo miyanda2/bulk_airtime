@@ -56,60 +56,60 @@ if (isset($_POST["import"])) {
             // Decode JSON response:
             $validationResult = json_decode($json, true);
 
-            // Access and use your preferred validation result objects
-            $validationResult['valid'];
-            $country_code = $validationResult['country_code'];
-            $carrier = $validationResult['carrier'];
 
-            // $db = new DataSource;
+            if (isset($validationResult['valid'])) {
 
-            //parsed $country_code to get $currency_code to be used for disbursment with AfricaStalking
+                // Access and use your preferred validation result objects
+                $validationResult['valid'];
+                $country_code = $validationResult['country_code'];
+                $carrier = $validationResult['carrier'];
 
-            $currency_code_object = $db->getCurrencyCode($country_code);
+                // $db = new DataSource;
 
-            if ($currency_code_object != false) {
-                $currency_code = $currency_code_object->currencyCode;
-                $country = $currency_code_object->countryName;
+                //parsed $country_code to get $currency_code to be used for disbursment with AfricaStalking
 
-                $response = $db->saveNumber($tag_id, $firstname, $lastname, $phone_number, $country_code, $country, $carrier, $currency_code);
+                $currency_code_object = $db->getCurrencyCode($country_code);
 
-                if ($response == 'success') {
-                    $type = "success";
-                    $message = "CSV Data Imported into the Database";
-                } else {
-                    array_push($error, $response . ' - error with ' . $phone_number);
-                    $type = "error";
-                    $message = "Problem in Importing CSV Data";
+                if ($currency_code_object != false) {
+                    $currency_code = $currency_code_object->currencyCode;
+                    $country = $currency_code_object->countryName;
+
+                    if ($db->isPhoneNumberExist($tag_id, $phonenumber) == 'success') {
+                        $response = $db->saveNumber($tag_id, $firstname, $lastname, $phone_number, $country_code, $country, $carrier, $currency_code);
+
+                        if ($response == 'success') {
+                            $type = "success";
+                            $message = "CSV Data Imported into the Database";
+                        } else {
+                            array_push($error, $response . ' - error with ' . $phone_number);
+                            $type = "error";
+                            $message = "Problem in Importing CSV Data";
+                        }
+                    } else {
+                        continue;
+                    }
                 }
+            } else {
+                //print_r($validationResult);
+                /*
+                    response from numverify API
+                    Array
+                    (
+                        [success] => 
+                        [error] => Array
+                            (
+                                [code] => 106
+                                [type] => rate_limit_reached
+                                [info] => You have exceeded the maximum rate limitation allowed on your subscription plan. Please refer to the "Rate Limits" section of the API Documentation for details. 
+                            )
+
+                    )
+                */
+
+                //save Numverify error to DB
+                $db->saveErrorLog($phonenumber, $validationResult['error']['info'], 'Numverify');
             }
             sleep(2);
-            /* $countrycode = "";
-                        // if (isset($column[3])) {
-                        //     $countrycode = mysqli_real_escape_string($conn, $column[3]);
-                        // }
-                
-                
-                       
-                        //  $carrier = "";
-                        // if (isset($column[5])) {
-                        //     $carrier = mysqli_real_escape_string($conn, $column[5]);
-                        // }
-                        
-                        $sqlInsert = "INSERT into phone_number (first_name,last_name,phone_number,country_code,carrier,currency_code,country)
-                               values (?,?,?,?,?,?,?)";
-                        $paramType = "sssssss";
-                        $paramArray = array(
-                            $firstname,
-                            $lastname,
-                            $phonenumber,
-                            $contcode,
-                            $carrier1,
-                            $currency_code,
-                            $country,
-                        );                
-                
-                        $insertId = $db->insert($sqlInsert, $paramType, $paramArray);
-                */
         }
     }
 }
@@ -127,7 +127,7 @@ if (isset($_POST["import"])) {
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet" />
-    
+
     <script src="js/jquery-3.2.1.min.js"></script>
 </head>
 
@@ -146,8 +146,8 @@ if (isset($_POST["import"])) {
         <!-- /.container-fluid -->
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        
-        
+
+
         <div class="divider"></div>
         <form role="search">
             <div class="form-group">
@@ -160,7 +160,7 @@ if (isset($_POST["import"])) {
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-
+            <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
@@ -344,7 +344,7 @@ if (isset($_POST["import"])) {
                 return true;
             });
 
-            $('#userTable').DataTable( {
+            $('#userTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
                     'excelHtml5',

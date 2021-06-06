@@ -14,7 +14,11 @@
             echo json_encode(array('type' => 'error', 'message' => 'Please select an event'));
         }else{
             
-            $response = $data_source->getEventCountryList($event);
+        $response = $data_source->getEventCountryList($event);
+        // print_r($response);
+        //echo "ok";
+        
+        // exit();
             if($response != false){
                 $list = '<option value="-1">Select Country </option>';
                 for($i = 0; $i < count($response); $i++){

@@ -8,6 +8,7 @@ $conn = $data_source->getConnection();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,7 +38,7 @@ $conn = $data_source->getConnection();
     </nav>
 
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-       
+
         <div class="divider"></div>
         <form role="search">
             <div class="form-group">
@@ -50,7 +51,7 @@ $conn = $data_source->getConnection();
             <li class="active"><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-
+            <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
@@ -167,4 +168,5 @@ $conn = $data_source->getConnection();
     <script src="js/bootstrap-datepicker.js"></script>
     <script src="js/custom.js"></script>
 </body>
+
 </html>

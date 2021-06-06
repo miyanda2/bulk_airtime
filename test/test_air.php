@@ -1,8 +1,8 @@
 <?php
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 use AfricasTalking\SDK\AfricasTalking;
 
-require_once './functions.php';
+require_once '../functions.php';
 
 $data_source = new DataSource;
 $conn = $data_source->getConnection();

@@ -1,73 +1,79 @@
 <?php
-    require '../vendor/autoload.php';
-    use AfricasTalking\SDK\AfricasTalking;
+require '../vendor/autoload.php';
 
-    require_once '../functions.php';
-    $db = new DataSource();
+use AfricasTalking\SDK\AfricasTalking;
 
-    $response_message = '';
+require_once '../functions.php';
+$db = new DataSource();
 
-    if (isset($_POST["send"])) {
+$response_message = '';
 
-        $tag = $db->cleanInput($_POST['tag']);
-        $country = $db->cleanInput($_POST['country']);
-        $amount = $db->cleanInput($_POST['amount']);
+if (isset($_POST["send"])) {
 
-        $conn = $db->getConnection();
+    $tag = $db->cleanInput($_POST['tag']);
+    $country = $db->cleanInput($_POST['country']);
+    $amount = $db->cleanInput($_POST['amount']);
 
-        // Set your app credentials
-        $username = $db->getAFSetting()->af_username;
-        $apikey   = $db->getAFSetting()->af_apikey;
+    $conn = $db->getConnection();
 
-        // Initialize the SDK
-        $AT = new AfricasTalking($username, $apikey);
+    // Set your app credentials
+    $username = $db->getAFSetting()->af_username;
+    $apikey   = $db->getAFSetting()->af_apikey;
 
-        // Get the airtime service
-        $airtime  = $AT->airtime();
+    // Initialize the SDK
+    $AT = new AfricasTalking($username, $apikey);
 
-        $basic  = new \Vonage\Client\Credentials\Basic($db->getNXSetting()->nx_apikey, $db->getNXSetting()->nx_apisec);
-        $client = new \Vonage\Client($basic);
+    // Get the airtime service
+    $airtime  = $AT->airtime();
 
-        $currency_code_object = $db->getCurrencyCode($country);
-        $phone_number = $db->getEventAirtimeList($tag, $country);
-        $currency_code = $currency_code_object->currencyCode;
+    $basic  = new \Vonage\Client\Credentials\Basic($db->getNXSetting()->nx_apikey, $db->getNXSetting()->nx_apisec);
+    $client = new \Vonage\Client($basic);
 
-        $recipients = [];
-        $sent_counter = 0;
-        $failed_counter = 0;
-        $sms_message = $db->getMessage()->msg;
-        $event_tag = $db->getEventById($tag);
+    $currency_code_object = $db->getCurrencyCode($country);
+    $phone_number = $db->getEventAirtimeList($tag, $country);
+    $currency_code = $currency_code_object->currencyCode;
 
-        for ($i = 0; $i < count($phone_number); $i++) {
+    //print_r($phone_number); exit;
 
-            /*array_push($recipients,[
+    $recipients = [];
+    $sent_counter = 0;
+    $failed_counter = 0;
+    $sms_message = $db->getMessage()->msg;
+    $event_tag = $db->getEventById($tag);
+
+    for ($i = 0; $i < count($phone_number); $i++) {
+
+        /*array_push($recipients,[
                             "phoneNumber"  => $phone_number[$i]['phone_number'],
                             "currencyCode" => $currency_code,
                             "amount"       => $amount
                         ]);*/
-            $recipients = [[
-                            "phoneNumber"  => $phone_number[$i]['phone_number'],
-                            "currencyCode" => $currency_code,
-                            "amount"       => $amount
-                        ]];
+        $recipients = [[
+            "phoneNumber"  => $phone_number[$i]['phone_number'],
+            "currencyCode" => $currency_code,
+            "amount"       => $amount
+        ]];
 
-            try {
-                // That's it, hit send and we'll take care of the rest
-                $results = $airtime->send([
-                    "recipients" => $recipients
+        try {
+            // That's it, hit send and we'll take care of the rest
+            $results = $airtime->send([
+                "recipients" => $recipients
 
-                ]);
+            ]);
 
-            $sms_message = str_replace('&&name', $phone_number[$i]['first_name'] , $sms_message);
+            $sms_message = str_replace('&&name', $phone_number[$i]['first_name'], $sms_message);
             $sms_message = str_replace('&&amount', $amount, $sms_message);
             $sms_message = str_replace('&&event', $event_tag, $sms_message);
 
-            
-                if($results['status'] == 'success'){
-                    $sms_sent = 0;
-                    $attempt = 1;
-                    $last_attempt = 1;
-                    $success = 1;
+            // print_r($results);
+            // continue;
+            if ($results['status'] == 'success') {
+                $sms_sent = 0;
+                $attempt = 1;
+                $last_attempt = 1;
+                $success = 1;
+
+                if (!isset($results['data']->errorMessage)) {
 
                     $sms_response = $client->sms()->send(
                         new \Vonage\SMS\Message\SMS($phone_number[$i]['phone_number'], $event_tag, $sms_message)
@@ -79,27 +85,42 @@
                         $sms_sent = 1;
                     }
 
-                    $save_response = $db->saveAirtimeHistory($phone_number[$i]['tag_id'], $phone_number[$i]['sn'], $amount, $success, $attempt, $last_attempt, $sms_sent);  
-                    $sent_counter++;                  
-                }else{
-                    $sms_sent = 0;
-                    $attempt = 1;
-                    $last_attempt = 1;
-                    $success = 0;
-                    $save_response = $db->saveAirtimeHistory($phone_number[$i]['tag_id'], $phone_number[$i]['sn'], $amount, $success, $attempt, $last_attempt, $sms_sent);
-                    $failed_counter++;
+                    $save_response = $db->saveAirtimeHistory(
+                        $phone_number[$i]['tag_id'],
+                        $phone_number[$i]['sn'],
+                        $amount,
+                        $success,
+                        $attempt,
+                        $last_attempt,
+                        $sms_sent
+                    );
+                    $sent_counter++;
+                } else {
+                    //print_r($results);
+                    $db->saveErrorLog($phone_number[$i]['phone_number'], $results['data']->errorMessage, 'AfricaStalking', $phone_number[$i]['tag_id']);
                 }
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
+            } else {
+                $sms_sent = 0;
+                $attempt = 1;
+                $last_attempt = 1;
+                $success = 0;
+                $save_response = $db->saveAirtimeHistory($phone_number[$i]['tag_id'], $phone_number[$i]['sn'], $amount, $success, $attempt, $last_attempt, $sms_sent);
+                $failed_counter++;
             }
+        } catch (Exception $e) {
+            //echo "Error: " . $e->getMessage();
 
-            sleep(1);
+            //save AfricaStalking error to DB
+            $db->saveErrorLog($phone_number[$i]['phone_number'], $e->getMessage(), 'AfricaStalking', $phone_number[$i]['tag_id']);
         }
 
-        $response_message = '<div class="alert alert-info">'.$sent_counter.' Airtime Sent Successfully. '.$failed_counter.' Failed</div>';
+        sleep(1);
+    }
+
+    $response_message = '<div class="alert alert-info">' . $sent_counter . ' Airtime Sent Successfully. ' . $failed_counter . ' Failed</div>';
 
 
-        /*try {
+    /*try {
             // That's it, hit send and we'll take care of the rest
             $results = $airtime->send([
                 "recipients" => $recipients
@@ -110,8 +131,7 @@
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }*/
-        
-    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -150,7 +170,7 @@
         <!-- /.container-fluid -->
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        
+
         <div class="divider"></div>
         <form role="search">
             <div class="form-group">
@@ -163,7 +183,7 @@
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li class="active"><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-
+            <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
@@ -189,10 +209,10 @@
         </div>
         <!--/.row-->
         <?php
-            echo $response_message;
+        echo $response_message;
         ?>
         <form action="" method="post">
-        
+
             <div class="col-lg-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
                 <div class="col-lg-12 grid">
                     <div class="position-relative form-group">
@@ -291,6 +311,8 @@
                     dataType: 'json',
                     data: '&event=' + selected_event,
                     success: function(msg) {
+                        //alert(msg);
+                        //exit();
                         if (msg.type == 'success') {
                             $('#country').html(msg.message);
                         } else {

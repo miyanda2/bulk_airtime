@@ -1,27 +1,27 @@
 <?php
-    require_once '../functions.php';
-    $db = new DataSource();
-    $conn = $db->getConnection();
+require_once '../functions.php';
+$db = new DataSource();
+$conn = $db->getConnection();
 
 
-    if(isset($_POST['save']))
-    {    
-         
-         $msg = $_POST['msg'];
-         $sqlInsert = "UPDATE message SET msg = '".$msg."' WHERE sn = 1";
-         
-         if (mysqli_query($conn, $sqlInsert)) {
-            echo "<script>alert('Message Successfully Saved!')</script>";
-         } else {
-            echo "Error: " . $sqlInsert . "" . mysqli_error($conn);
-         }
-         mysqli_close($conn);
+if (isset($_POST['save'])) {
+
+    $msg = $_POST['msg'];
+    $sqlInsert = "UPDATE message SET msg = '" . $msg . "' WHERE sn = 1";
+
+    if (mysqli_query($conn, $sqlInsert)) {
+        echo "<script>alert('Message Successfully Saved!')</script>";
+    } else {
+        echo "Error: " . $sqlInsert . "" . mysqli_error($conn);
     }
+    mysqli_close($conn);
+}
 
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,7 +47,7 @@
                 </ul>
             </div>
         </div>
-       
+
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
         <!-- <div class="profile-sidebar">
@@ -70,11 +70,11 @@
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li class="active"><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-
+            <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
-    
+
 
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
@@ -86,7 +86,7 @@
                 </li>
                 <li class="active">Config</li>
             </ol>
-        </div>   
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Configure Message</h1>
@@ -94,18 +94,18 @@
         </div>
 
         <div class="col-md-8 col-sm-offset-3 col-md-10 col-lg-offset-2 main">
-            
+
 
             <label class="control-label">Message</label><br>
             <div class="col-lg-12 col-lg-12">
                 <div class="panel panel-container" id="panel">
                     <div class="row">
-                        <div class="col-lg-12">           
-                            <form method="post" action="">         
-                                <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required><?php echo $db->getMessage()->msg?></textarea>
+                        <div class="col-lg-12">
+                            <form method="post" action="">
+                                <textarea class="form-control white_bg" name="msg" cols="20" rows="15" required><?php echo $db->getMessage()->msg ?></textarea>
                                 <br><br>
-                              <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
-                           </form>
+                                <button class="btn btn-primary" type="submit" name="save" type="submit">Save</button>
+                            </form>
                         </div>
                     </div>
                 </div>

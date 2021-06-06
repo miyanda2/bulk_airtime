@@ -9,40 +9,6 @@ $event_count_object = $data_source->countEventNumbers();
 $country_count_object = $data_source->countCountryNumbers();
 //$country_event_count = $data_source->getEventCountrycount($event);
 
-if (isset($_POST) && isset($_POST['downloadList'])) {
-    $tag = $data_source->cleanInput($_POST['tag']);
-
-    $connString =  $data_source->getConnection();
-
-    $tag_name = mysqli_query($connString, "SELECT * FROM tag WHERE sn = '" . $tag . "'");
-
-    $display_heading = array('sn' => 'ID', 'first_name' => 'Surname', 'last_name' => 'Othernames', 'phone_number' => 'Phone Number', 'country_code' => 'Country Code', 'country' => 'Country', 'carrier' => 'Carrier', 'currency_code' => 'Currency', 'date_created' => 'Date Created', 'tag_id' => 'Tag',);
-
-    $result = mysqli_query($connString, "SELECT first_name, last_name, phone_number, country, carrier FROM phone_number WHERE tag_id = '" . $tag . "'") or die("database error:" . mysqli_error($connString));
-    $header = mysqli_query($connString, "SHOW columns FROM phone_number");
-    //$header = array('Field'=>'ID', 'Field'=> 'Surname', 'Field'=> 'Othernames','Field'=> 'Phone Number','Field'=> 'Country Code', 'Field'=> 'Country','Field'=> 'Carrier', 'Field'=> 'Country Currency', 'Field'=> 'Date Created', 'Field'=> 'Tag');
-
-    $pdf = new PDF();
-    //header
-    $pdf->AddPage('L');
-    //foter page
-    $pdf->AliasNbPages();
-    $pdf->SetFont('Arial', 'B', 10);
-    foreach ($header as $heading) {
-        if ($heading['Field'] == 'tag_id' || $heading['Field'] == 'currency_code' || $heading['Field'] == 'country_code' || $heading['Field'] == 'sn' || $heading['Field'] == 'date_created') {
-            continue;
-        }
-        $pdf->Cell(50, 12, $display_heading[$heading['Field']], 1);
-    }
-    foreach ($result as $row) {
-        $pdf->Ln();
-        foreach ($row as $column)
-            $pdf->Cell(50, 12, $column, 0);
-    }
-
-    $pdf->Output();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -86,12 +52,12 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
             </div>
         </form>
         <ul class="nav menu">
-            <li class="active"><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+            <li><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
             <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-            <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
+            <li class="active"><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
@@ -112,36 +78,9 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
                 <h1 class="page-header">Dashboard</h1>
             </div>
         </div>
-        <div class="panel panel-container">
-            <div class="row">
-                <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-teal panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa-phone color-blue"></em>
-                            <div class="large"><?php echo $number_count_object; ?></div>
-                            <div class="text-muted">Numbers</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-blue panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa fa-calendar-o color-orange"></em>
-                            <div class="large"><?php echo $event_count_object; ?></div>
-                            <div class="text-muted">Events</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-orange panel-widget border-right">
-                        <div class="row no-padding"><em class="fa fa-xl fa fa-globe color-teal"></em>
-                            <div class="large"><?php echo $country_count_object; ?></div>
-                            <div class="text-muted">Countries</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><br>
+
         <div>
-            <h1 class="text-center">Event Country Count</h1>
+            <h1 class="text-center">Error Log</h1>
             <form action="" method="post">
                 <div class="col-lg-12 grid">
                     <div class="position-relative form-group">
@@ -158,12 +97,13 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
             </form>
             <br />
             <div>
-                <table class="myDataTable table table-hover table-striped table-bordered" id="tblCountryCount">
+                <table class="myDataTable table table-hover table-striped table-bordered" id="tblErrorLog">
                     <thead>
                         <tr>
                             <th scope="col">SN</th>
-                            <th scope="col">Country</th>
-                            <th scope="col">Count</th>
+                            <th scope="col">phone Number</th>
+                            <th scope="col">Error-Msg</th>
+                            <th scope="col">source</th>
 
                         </tr>
                     </thead>
@@ -173,40 +113,7 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
             </div>
         </div>
         <hr />
-        <div>
-            <h1 class="text-center">Event Airtime History</h1>
-            <form action="" method="post">
-                <div class="col-lg-12 grid">
-                    <div class="position-relative form-group">
-                        <select name="tag" class="form-control" id="tag_history">
-                            <?php echo $data_source->loadTagsIntoCombo(); ?>
-                        </select>
-                    </div>
-                    <!--<div class="position-relative form-group center">
-                        <div class="form-group">
-                            <button class="btn btn-primary" type="submit" name="downloadList">Download <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                        </div>
-                    </div>--><br>
-                </div>
-            </form>
-            <br />
-            <div>
-                <table class="myDataTable table table-hover table-striped table-bordered" id="tblEventHistory">
-                    <thead>
-                        <tr>
-                            <th scope="col">SN</th>
-                            <th scope="col">Phone Number</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Is Successful</th>
 
-                            <th scope="col">Is SMS Sent</th>
-                        </tr>
-                    </thead>
-                    <tbody id="disp_history_body">
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -251,55 +158,19 @@ if (isset($_POST) && isset($_POST['downloadList'])) {
                     }
 
                     $.ajax({
-                        url: 'process/ajaxGetEventContCount.php',
+                        url: 'process/ajaxGetErrorLog.php',
                         type: 'POST',
                         dataType: 'json',
                         data: '&event=' + selected_event,
                         success: function(msg) {
                             if (msg.type == 'success') {
                                 $('#disp_body').html(msg.message);
-                                $('#tblCountryCount').DataTable({
+                                $('#tblErrorLog').DataTable({
                                     dom: 'Bfrtip',
                                     buttons: [
                                         'excelHtml5',
                                         'csvHtml5',
-                                        'pdfHtml5'
-                                    ]
-                                });
-                            } else {
-                                alert(msg.message);
-                            }
-                        },
-                        error: function(x, e) {
-                            alert(formatErrorMessage(x, e));
-                        }
-                    });
-                });
-
-                $(document).on('change', '#tag_history', function(e) {
-                    e.preventDefault();
-
-                    //get user input
-                    var selected_event = $("#tag_history option:selected").val();
-
-                    if (selected_event == '-1') {
-                        return false;
-                    }
-
-                    $.ajax({
-                        url: 'process/ajaxGetEventAirtimeHistory.php',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: '&event=' + selected_event,
-                        success: function(msg) {
-                            if (msg.type == 'success') {
-                                $('#disp_history_body').html(msg.message);
-                                $('#tblEventHistory').DataTable({
-                                    dom: 'Bfrtip',
-                                    buttons: [
-                                        'excelHtml5',
-                                        'csvHtml5',
-                                        'pdfHtml5'
+                                        'pdfHtml5',
                                     ]
                                 });
                             } else {

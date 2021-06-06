@@ -1,5 +1,7 @@
 <?php
 
+require_once 'HmsSessionHandler.php';
+
 class DataSource
 {
     const HOST = 'localhost';
@@ -8,10 +10,12 @@ class DataSource
     const DATABASENAME = 'airtime-dis';
 
     private $conn;
+    public $sessionHandler;
 
     public function __construct()
     {
         $this->conn = $this->getConnection();
+        $this->sessionHandler = new HmsSessionHandler;
     }
 
     
@@ -181,7 +185,7 @@ class DataSource
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT COUNT(*) AS count FROM user WHERE username = '".$username."' AND password = '".$password."'";
+            $query = "SELECT * FROM user WHERE username = '".$username."' AND password = '".$password."'";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
@@ -482,7 +486,7 @@ class DataSource
         $con = $this->getPDOConnection();
 
         try {
-            $query = "SELECT ANY_VALUE(country_code) AS country_code, ANY_VALUE(country) AS country, COUNT(sn)  FROM phone_number WHERE tag_id = '".$event_id."' GROUP BY currency_code ORDER BY COUNT(sn) DESC";
+            $query = "SELECT * FROM phone_number WHERE tag_id = '" . $event_id . "' GROUP BY country_code";
             //return $query;
             $prepared_query = $con->prepare($query);
             $prepared_query->execute();
@@ -688,6 +692,105 @@ class DataSource
             //return $e->getMessage();
         }
     }
+
+    public function isPhoneNumberExist($event_id, $phone_number)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT * FROM phone_number WHERE tag_id = '" . $event_id . "' AND phone_number = '" . $phone_number . "'";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {                
+                return 'exist';
+            } else {
+                return 'success';
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function saveErrorLog($phone_number, $message, $source, $tag_id)
+    {
+        $con = $this->getPDOConnection();
+
+        date_default_timezone_set('Africa/Lagos'); // Set the Default Time Zone:
+        $date = '';
+        $d = new DateTime($date);
+        $cdate = $d->format('Y-m-d h:i:s');
+
+        $con->beginTransaction();
+
+        try {
+
+            // prepare sql and bind parameters      
+            $query = "INSERT INTO error_log (phone_number, message, source, tag_id) VALUES (:phone_number, :message, :source, :tag_id)";
+            $stmt = $con->prepare($query);
+            // prepare sql and bind parameters
+            $stmt->bindParam(':phone_number', $phone_number);
+            $stmt->bindParam(':message', $message);  
+            $stmt->bindParam(':source', $source);
+            $stmt->bindParam(':tag_id', $tag_id);           
+
+            $stmt->execute();
+            $con->commit();
+            $stmt->closeCursor();
+            return true;
+        } catch (Exception $e) {
+            $con->rollBack();
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function deleteEvent($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try{
+          // prepare sql and bind parameters
+          $wArray = array('sn'=>$event_id);
+          $rs = $con->delete('tag', $wArray)->affectedRows();
+
+          if($rs > 0){
+            return 'success';
+          }else{
+            return false;
+          }
+        } catch (Exception $e) {
+          return false;
+          //return $e->getMessage();
+        }
+    }
+
+    public function getEventErrorLog($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            $query = "SELECT * FROM error_log WHERE tag_id = '" . $event_id . "' ";
+            //return $query;
+            $prepared_query = $con->prepare($query);
+            $prepared_query->execute();
+            $count = $prepared_query->rowCount();
+            if ($count > 0) {
+                $stmt = $prepared_query->fetchAll();
+                return $stmt;
+            } else {
+                return false;
+                //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
 
 }
 
