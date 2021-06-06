@@ -33,7 +33,7 @@ if (isset($_POST["send"])) {
     $phone_number = $db->getEventAirtimeList($tag, $country);
     $currency_code = $currency_code_object->currencyCode;
 
-    //print_r($phone_number); exit;
+   // print_r($phone_number); exit;
 
     $recipients = [];
     $sent_counter = 0;
@@ -43,11 +43,7 @@ if (isset($_POST["send"])) {
 
     for ($i = 0; $i < count($phone_number); $i++) {
 
-        /*array_push($recipients,[
-                            "phoneNumber"  => $phone_number[$i]['phone_number'],
-                            "currencyCode" => $currency_code,
-                            "amount"       => $amount
-                        ]);*/
+ 
         $recipients = [[
             "phoneNumber"  => $phone_number[$i]['phone_number'],
             "currencyCode" => $currency_code,
@@ -97,7 +93,7 @@ if (isset($_POST["send"])) {
                     $sent_counter++;
                 } else {
                     //print_r($results);
-                    $db->saveErrorLog($phone_number[$i]['phone_number'], $results['data']->errorMessage, 'AfricaStalking', $phone_number[$i]['tag_id']);
+                    $db->saveErrorLog($phone_number[$i]['phone_number'], $results['data']->errorMessage, 'NumVerify', $phone_number[$i]['tag_id']);
                 }
             } else {
                 $sms_sent = 0;
@@ -118,19 +114,6 @@ if (isset($_POST["send"])) {
     }
 
     $response_message = '<div class="alert alert-info">' . $sent_counter . ' Airtime Sent Successfully. ' . $failed_counter . ' Failed</div>';
-
-
-    /*try {
-            // That's it, hit send and we'll take care of the rest
-            $results = $airtime->send([
-                "recipients" => $recipients
-
-            ]);
-
-            print_r($results);
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }*/
 }
 ?>
 <!DOCTYPE html>

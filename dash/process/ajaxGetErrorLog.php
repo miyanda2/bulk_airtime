@@ -18,7 +18,7 @@ if (isset($_POST)) {
         if ($response != false) {
             $list = '';
             for ($i = 0; $i < count($response); $i++) {
-                $list .= '<tr><td>' . ($i + 1) . '</td><td>' . $response[$i]['phone_number'] . '</td><td>' . $response[$i]['message'] . '</td><td>' . $response[$i]['source'] . '</td><td>' . $response[$i]['tag_id'] . '</td></tr>';
+                $list .= '<tr><td>' . ($i + 1) . '</td><td>' . $response[$i]['phone_number'] . '</td><td>' . $response[$i]['message'] . '</td><td>' . $response[$i]['source'] . '</td></tr>';
             }
             echo json_encode(array('type' => 'success', 'message' => $list));
         } else {

@@ -1,47 +1,12 @@
 <?php
 
 require_once '../functions.php';
-require_once '../downloadpdf.php';
+//require_once '../downloadpdf.php';
 
 $data_source = new DataSource;
 $number_count_object = $data_source->countTotalNumbers();
 $event_count_object = $data_source->countEventNumbers();
 $country_count_object = $data_source->countCountryNumbers();
-//$country_event_count = $data_source->getEventCountrycount($event);
-
-if (isset($_POST) && isset($_POST['downloadList'])) {
-    $tag = $data_source->cleanInput($_POST['tag']);
-
-    $connString =  $data_source->getConnection();
-
-    $tag_name = mysqli_query($connString, "SELECT * FROM tag WHERE sn = '" . $tag . "'");
-
-    $display_heading = array('sn' => 'ID', 'first_name' => 'Surname', 'last_name' => 'Othernames', 'phone_number' => 'Phone Number', 'country_code' => 'Country Code', 'country' => 'Country', 'carrier' => 'Carrier', 'currency_code' => 'Currency', 'date_created' => 'Date Created', 'tag_id' => 'Tag',);
-
-    $result = mysqli_query($connString, "SELECT first_name, last_name, phone_number, country, carrier FROM phone_number WHERE tag_id = '" . $tag . "'") or die("database error:" . mysqli_error($connString));
-    $header = mysqli_query($connString, "SHOW columns FROM phone_number");
-    //$header = array('Field'=>'ID', 'Field'=> 'Surname', 'Field'=> 'Othernames','Field'=> 'Phone Number','Field'=> 'Country Code', 'Field'=> 'Country','Field'=> 'Carrier', 'Field'=> 'Country Currency', 'Field'=> 'Date Created', 'Field'=> 'Tag');
-
-    $pdf = new PDF();
-    //header
-    $pdf->AddPage('L');
-    //foter page
-    $pdf->AliasNbPages();
-    $pdf->SetFont('Arial', 'B', 10);
-    foreach ($header as $heading) {
-        if ($heading['Field'] == 'tag_id' || $heading['Field'] == 'currency_code' || $heading['Field'] == 'country_code' || $heading['Field'] == 'sn' || $heading['Field'] == 'date_created') {
-            continue;
-        }
-        $pdf->Cell(50, 12, $display_heading[$heading['Field']], 1);
-    }
-    foreach ($result as $row) {
-        $pdf->Ln();
-        foreach ($row as $column)
-            $pdf->Cell(50, 12, $column, 0);
-    }
-
-    $pdf->Output();
-}
 
 ?>
 

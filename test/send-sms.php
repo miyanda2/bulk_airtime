@@ -1,18 +1,28 @@
 <?php
 
 // require_once __DIR__ . './config.php';
-require_once __DIR__ . './vendor/autoload.php';
-require_once './functions.php';
+require_once __DIR__ . './../vendor/autoload.php';
+require_once './../functions.php';
 
-$data_source = new DataSource;
-$conn = $data_source->getConnection();
+use AfricasTalking\SDK\AfricasTalking;
 
-$basic  = new \Vonage\Client\Credentials\Basic($data_source->getNXSetting()->nx_pubkey, $data_source->getNXSetting()->nx_seckey);
+$db = new DataSource;
+$conn = $db->getConnection();
+
+$basic  = new \Vonage\Client\Credentials\Basic($db->getNXSetting()->nx_apikey, $db->getNXSetting()->nx_apisec);
 $client = new \Vonage\Client($basic);
 
+$sms_message =  "Hello &&name You have been send airtime worth &&amount for &&event...";
+
+$sms_message = str_replace('&&name', 'Micheal', $sms_message);
+$sms_message = str_replace('&&amount', '100', $sms_message);
+$sms_message = str_replace('&&event', 'Event Test', $sms_message);
+
+
 $response = $client->sms()->send(
-    new \Vonage\SMS\Message\SMS("2348160317744", "EventName", 'Dear $User, airtine value of $amount $currency_code, bla bla')
+    new \Vonage\SMS\Message\SMS("2348160317744", "EventName", $sms_message)
 );
+//print_r($response);die();
 
 $message = $response->current();
 

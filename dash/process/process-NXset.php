@@ -12,7 +12,7 @@ if (isset($_POST['save'])) {
     $apisek = $_POST['apisec'];
 
 
-    $sqlInsert = "UPDATE `setting` SET `nx_apikey` = '$apikey' , `nx_apisec` = '$apisec' ";
+    $sqlInsert = "UPDATE `setting` SET `nx_apikey` = '$apikey' , `nx_apisec` = '$apisek' ";
 
     if (mysqli_query($conn, $sqlInsert)) {
         echo "successfully !";

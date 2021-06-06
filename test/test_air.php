@@ -10,8 +10,8 @@ $conn = $data_source->getConnection();
 
 
 // Set your app credentials
-$username = $data_source->getAFSetting()->af_username;
-$apikey   = $data_source->getAFSetting()->af_apikey;
+$username = 'sandbox'; //$data_source->getAFSetting()->af_username;
+$apikey   = 'c7ab1bb74b9337177b35c60cf04cfaa27641987e07246334166a975419c4e196';//$data_source->getAFSetting()->af_apikey;
 
 // Initialize the SDK
 $AT       = new AfricasTalking($username, $apikey);
@@ -21,7 +21,7 @@ $airtime  = $AT->airtime();
 
 // Set the phone number, currency code and amount in the format below
 $recipients = [[
-    "phoneNumber"  => "+2348160317744",
+    "phoneNumber"  => "+2348122317722",
     "currencyCode" => "NGN",
     "amount"       => 100
 ]];
