@@ -19,10 +19,7 @@
 </head>
 <body>
 
-<?php
 
-
-?>
 	<div class="row">
 		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
 			<div class="login-panel panel panel-default">
@@ -42,12 +39,13 @@
 							</div>
 							
 							<button type="button" name= "btn" class="btn btn-primary" id="btnLogin">Login</button>
-							 
+							 </fieldset>
 					</form>
 				</div>
+                </div>
 			</div>
 		</div><!-- /.col-->
-	</div><!-- /.row -->	
+	<!-- /.row -->	
 	
 
 <script src="dash/js/jquery-1.11.1.min.js"></script>

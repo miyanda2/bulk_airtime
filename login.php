@@ -42,7 +42,7 @@ include './functions.php';
 							</div>
 							
 							<button type="button" name= "btn" class="btn btn-primary" id="btnLogin">Login</button>
-							 
+                        </fieldset>
 					</form>
 				</div>
 			</div>
