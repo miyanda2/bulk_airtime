@@ -12,10 +12,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for airtime-dis
-CREATE DATABASE IF NOT EXISTS `airtime-dis` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `airtime-dis`;
-
 -- Dumping structure for table airtime-dis.airtime_history
 CREATE TABLE IF NOT EXISTS `airtime_history` (
   `sn` int(11) NOT NULL AUTO_INCREMENT,
@@ -27,12 +23,17 @@ CREATE TABLE IF NOT EXISTS `airtime_history` (
   `last_attempt` int(11) NOT NULL,
   `sms_sent` int(11) NOT NULL,
   PRIMARY KEY (`sn`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table airtime-dis.airtime_history: ~0 rows (approximately)
+-- Dumping data for table airtime-dis.airtime_history: ~6 rows (approximately)
 /*!40000 ALTER TABLE `airtime_history` DISABLE KEYS */;
 INSERT INTO `airtime_history` (`sn`, `tag_id`, `phone_id`, `amount`, `success`, `attempt`, `last_attempt`, `sms_sent`) VALUES
-	(3, 1, 2, 5000, 1, 1, 1, 1);
+	(3, 1, 2, 5000, 1, 1, 1, 1),
+	(4, 1, 3, 100, 1, 1, 1, 1),
+	(5, 1, 3, 100, 1, 1, 1, 1),
+	(6, 1, 3, 100, 1, 1, 1, 1),
+	(7, 1, 3, 100, 1, 1, 1, 1),
+	(8, 1, 3, 100, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `airtime_history` ENABLE KEYS */;
 
 -- Dumping structure for table airtime-dis.countries
@@ -301,6 +302,29 @@ INSERT INTO `countries` (`countryCode`, `countryName`, `country_count`, `currenc
 	('ZW', 'Zimbabwe', 0, 'ZWL', 13061000, 'Harare', 'Africa');
 /*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 
+-- Dumping structure for table airtime-dis.error_log
+CREATE TABLE IF NOT EXISTS `error_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone_number` varchar(50) NOT NULL,
+  `message` varchar(300) NOT NULL,
+  `source` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table airtime-dis.error_log: ~3 rows (approximately)
+/*!40000 ALTER TABLE `error_log` DISABLE KEYS */;
+INSERT INTO `error_log` (`id`, `phone_number`, `message`, `source`) VALUES
+	(1, '2348154657799', 'You have exceeded the maximum rate limitation allowed on your subscription plan. Please refer to the "Rate Limits" section of the API Documentation for details. ', ''),
+	(2, '2348154657799', 'You have exceeded the maximum rate limitation allowed on your subscription plan. Please refer to the "Rate Limits" section of the API Documentation for details. ', ''),
+	(3, '2348154657799', 'You have exceeded the maximum rate limitation allowed on your subscription plan. Please refer to the "Rate Limits" section of the API Documentation for details. ', ''),
+	(4, 'Array', 'Non White-listed Destination - rejected', 'AfricaStalking'),
+	(5, 'Array', 'Quota Exceeded - rejected', 'AfricaStalking'),
+	(6, 'Array', 'Non White-listed Destination - rejected', 'AfricaStalking'),
+	(7, '2348160317722', 'Non White-listed Destination - rejected', 'AfricaStalking'),
+	(8, '2347068875714', 'Quota Exceeded - rejected', 'AfricaStalking'),
+	(9, '2348154657799', 'Non White-listed Destination - rejected', 'AfricaStalking');
+/*!40000 ALTER TABLE `error_log` ENABLE KEYS */;
+
 -- Dumping structure for table airtime-dis.message
 CREATE TABLE IF NOT EXISTS `message` (
   `sn` int(11) NOT NULL AUTO_INCREMENT,
@@ -312,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- Dumping data for table airtime-dis.message: ~0 rows (approximately)
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
 INSERT INTO `message` (`sn`, `tag_id`, `msg`) VALUES
-	(1, 1, 'Hello &&username\r\n\r\nYou have been send airtime worth &&amount for &&event...');
+	(1, 1, 'Hello &&name\r\n\r\nYou have been send airtime worth &&amount for &&event...');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 
 -- Dumping structure for table airtime-dis.phone_number
@@ -328,14 +352,15 @@ CREATE TABLE IF NOT EXISTS `phone_number` (
   `currency_code` varchar(50) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`sn`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table airtime-dis.phone_number: ~3 rows (approximately)
+-- Dumping data for table airtime-dis.phone_number: ~4 rows (approximately)
 /*!40000 ALTER TABLE `phone_number` DISABLE KEYS */;
 INSERT INTO `phone_number` (`sn`, `tag_id`, `first_name`, `last_name`, `phone_number`, `country_code`, `country`, `carrier`, `currency_code`, `date_created`) VALUES
 	(1, 1, 'Micheal', 'Iyanda', '2348160317722', 'NG', 'Nigeria', 'MTN Nigeria Communications Ltd', 'NGN', '2021-05-31 04:15:27'),
 	(2, 1, 'Boss test', 'Boss', '2348160317744', 'NL', 'Netherlands', 'T-Mobile Netherlands BV', 'EUR', '2021-05-31 04:15:30'),
-	(3, 1, 'peter', 'WW', '2348176897567', 'NG', 'Nigeria', 'Emerging Markets Telecommunication Services Ltd (E', 'NGN', '2021-05-31 04:15:32');
+	(3, 1, 'peter', 'WW', '2347068875714', 'NG', 'Nigeria', 'Emerging Markets Telecommunication Services Ltd (E', 'NGN', '2021-05-31 04:15:32'),
+	(4, 1, 'Peter', 'Mad man', '2348154657799', 'NG', 'Nigeria', 'Globacom Ltd', 'NGN', '2021-06-05 08:09:00');
 /*!40000 ALTER TABLE `phone_number` ENABLE KEYS */;
 
 -- Dumping structure for table airtime-dis.setting
