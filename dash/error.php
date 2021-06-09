@@ -2,7 +2,6 @@
 
 require_once '../functions.php';
 
-
 $data_source = new DataSource;
 $number_count_object = $data_source->countTotalNumbers();
 $event_count_object = $data_source->countEventNumbers();
@@ -55,6 +54,7 @@ $country_count_object = $data_source->countCountryNumbers();
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
+            <li><a href="events.php"><em class="fa fa-calendar-o">&nbsp;</em> Events</a></li>
             <li class="active"><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../index.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
@@ -86,7 +86,7 @@ $country_count_object = $data_source->countCountryNumbers();
                             <?php echo $data_source->loadTagsIntoCombo(); ?>
                         </select>
                     </div>
-                   <br>
+                    <br>
                 </div>
             </form>
             <br />

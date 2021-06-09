@@ -56,7 +56,7 @@ $country_count_object = $data_source->countCountryNumbers();
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-            <li><a href="events.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Events</a></li>
+            <li><a href="events.php"><em class="fa fa-calendar-o">&nbsp;</em> Events</a></li>
             <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../index.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
@@ -81,9 +81,10 @@ $country_count_object = $data_source->countCountryNumbers();
         <div class="panel panel-container">
             <div class="row">
                 <div class="col-xs-4 col-md-4 col-lg-4 no-padding">
-                    <div class="panel panel-teal panel-widget border-right">
+                    <div class="panel panel-teal panel-widget border-right card-box bg-blue">
                         <div class="row no-padding"><em class="fa fa-xl fa-phone color-blue"></em>
                             <div class="large"><?php echo $number_count_object; ?></div>
+                            
                             <div class="text-muted">Numbers</div>
                         </div>
                     </div>
