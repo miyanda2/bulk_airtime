@@ -4,9 +4,10 @@ require_once '../functions.php';
 
 
 $data_source = new DataSource;
-$number_count_object = $data_source->countTotalNumbers();
-$event_count_object = $data_source->countEventNumbers();
-$country_count_object = $data_source->countCountryNumbers();
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +56,8 @@ $country_count_object = $data_source->countCountryNumbers();
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-            <li class="active"><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
+            <li class="active"><a href="events.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Events</a></li>
+            <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../index.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
@@ -78,33 +80,45 @@ $country_count_object = $data_source->countCountryNumbers();
         </div>
 
         <div>
-            <h1 class="text-center">Error Log</h1>
-            <form action="" method="post">
-                <div class="col-lg-12 grid">
-                    <div class="position-relative form-group">
-                        <select name="tag" class="form-control" id="tag">
-                            <?php echo $data_source->loadTagsIntoCombo(); ?>
-                        </select>
-                    </div>
-                   <br>
-                </div>
-            </form>
-            <br />
-            <div>
-                <table class="myDataTable table table-hover table-striped table-bordered" id="tblErrorLog">
-                    <thead>
-                        <tr>
-                            <th scope="col">SN</th>
-                            <th scope="col">phone Number</th>
-                            <th scope="col">Error-Msg</th>
-                            <th scope="col">source</th>
+            <h1 class="text-center">Events</h1>
+            <?php
+            $sqlSelect = "SELECT * FROM tag";
+            $result = $data_source->select($sqlSelect);
+            if (!empty($result)) {
+            ?>
+                <br />
+                <div>
+                    <table class="myDataTable table table-hover table-striped table-bordered" id="tblevent">
+                        <thead>
+                            <tr>
+                                <th scope="col">SN</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Action</th>
 
-                        </tr>
-                    </thead>
-                    <tbody id="disp_body">
-                    </tbody>
-                </table>
-            </div>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sn = 0;
+                            foreach ($result as $row) {
+                                $sn++;
+                            ?>
+                                <tr>
+                                    <th scope="row"><?php echo $sn; ?></th>
+                                    <td><?php echo $row['event']; ?></td>
+                                    <td><button class="btn btn-danger" type="submit" name="delete" type="submit">Delete</button></td>
+
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                <?php
+            }
+                ?>
+                </div>
         </div>
         <hr />
 
@@ -141,40 +155,39 @@ $country_count_object = $data_source->countCountryNumbers();
 
             $(document).ready(function() {
 
-                $(document).on('change', '#tag', function(e) {
-                    e.preventDefault();
+                // $(document).on('change', '#tag', function(e) {
+                //     e.preventDefault();
 
-                    //get user input
-                    var selected_event = $("#tag option:selected").val();
+                //     //get user input
+                //     var selected_event = $("#tag option:selected").val();
 
-                    if (selected_event == '-1') {
-                        return false;
-                    }
+                //     if (selected_event == '-1') {
+                //         return false;
+                //     }
 
-                    $.ajax({
-                        url: 'process/ajaxGetErrorLog.php',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: '&event=' + selected_event,
-                        success: function(msg) {
-                            if (msg.type == 'success') {
-                                $('#disp_body').html(msg.message);
-                                $('#tblErrorLog').DataTable({
-                                    dom: 'Bfrtip',
-                                    buttons: [
-                                        'excelHtml5',
-                                        'csvHtml5',
-                                        'pdfHtml5',
-                                    ]
-                                });
-                            } else {
-                                alert(msg.message);
-                            }
-                        },
-                        error: function(x, e) {
-                            alert(formatErrorMessage(x, e));
+                $.ajax({
+                    url: 'process/ajaxGetEvents.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: '&event=' + selected_event,
+                    success: function(msg) {
+                        if (msg.type == 'success') {
+                            $('#disp_body').html(msg.message);
+                            $('#tblevent').DataTable({
+                                dom: 'Bfrtip',
+                                buttons: [
+                                    'excelHtml5',
+                                    'csvHtml5',
+                                    'pdfHtml5',
+                                ]
+                            });
+                        } else {
+                            alert(msg.message);
                         }
-                    });
+                    },
+                    error: function(x, e) {
+                        alert(formatErrorMessage(x, e));
+                    }
                 });
 
             });

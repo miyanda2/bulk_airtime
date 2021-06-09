@@ -21,7 +21,7 @@ $airtime  = $AT->airtime();
 
 // Set the phone number, currency code and amount in the format below
 $recipients = [[
-    "phoneNumber"  => "+2348122317722",
+    "phoneNumber"  => "+2348160317744",
     "currencyCode" => "NGN",
     "amount"       => 100
 ]];

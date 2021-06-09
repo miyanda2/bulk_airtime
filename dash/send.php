@@ -33,7 +33,7 @@ if (isset($_POST["send"])) {
     $phone_number = $db->getEventAirtimeList($tag, $country);
     $currency_code = $currency_code_object->currencyCode;
 
-   // print_r($phone_number); exit;
+    // print_r($phone_number); exit;
 
     $recipients = [];
     $sent_counter = 0;
@@ -43,7 +43,7 @@ if (isset($_POST["send"])) {
 
     for ($i = 0; $i < count($phone_number); $i++) {
 
- 
+
         $recipients = [[
             "phoneNumber"  => $phone_number[$i]['phone_number'],
             "currencyCode" => $currency_code,
@@ -93,7 +93,7 @@ if (isset($_POST["send"])) {
                     $sent_counter++;
                 } else {
                     //print_r($results);
-                    $db->saveErrorLog($phone_number[$i]['phone_number'], $results['data']->errorMessage, 'NumVerify', $phone_number[$i]['tag_id']);
+                    $db->saveErrorLog($phone_number[$i]['phone_number'], $results['data']->errorMessage, 'AfricaStalking', $phone_number[$i]['tag_id']);
                 }
             } else {
                 $sms_sent = 0;
@@ -166,6 +166,7 @@ if (isset($_POST["send"])) {
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li class="active"><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
+            <li><a href="events.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Events</a></li>
             <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>

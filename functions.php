@@ -748,26 +748,7 @@ class DataSource
         }
     }
 
-    public function deleteEvent($event_id)
-    {
-        $con = $this->getPDOConnection();
-
-        try{
-          // prepare sql and bind parameters
-          $wArray = array('sn'=>$event_id);
-          $rs = $con->delete('tag', $wArray)->affectedRows();
-
-          if($rs > 0){
-            return 'success';
-          }else{
-            return false;
-          }
-        } catch (Exception $e) {
-          return false;
-          //return $e->getMessage();
-        }
-    }
-
+    
     public function getEventErrorLog($event_id)
     {
         $con = $this->getPDOConnection();
@@ -784,6 +765,26 @@ class DataSource
             } else {
                 return false;
                 //return $count;
+            }
+        } catch (Exception $e) {
+            return false;
+            //return $e->getMessage();
+        }
+    }
+
+    public function deleteEvent($event_id)
+    {
+        $con = $this->getPDOConnection();
+
+        try {
+            // prepare sql and bind parameters
+            $wArray = array('sn' => $event_id);
+            $rs = $con->delete('tag', $wArray)->affectedRows();
+
+            if ($rs > 0) {
+                return 'success';
+            } else {
+                return false;
             }
         } catch (Exception $e) {
             return false;

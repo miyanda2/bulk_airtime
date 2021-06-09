@@ -91,23 +91,10 @@ if (isset($_POST["import"])) {
                 }
             } else {
                 //print_r($validationResult);
-                /*
-                    response from numverify API
-                    Array
-                    (
-                        [success] => 
-                        [error] => Array
-                            (
-                                [code] => 106
-                                [type] => rate_limit_reached
-                                [info] => You have exceeded the maximum rate limitation allowed on your subscription plan. Please refer to the "Rate Limits" section of the API Documentation for details. 
-                            )
 
-                    )
-                */
 
                 //save Numverify error to DB
-                $db->saveErrorLog($phonenumber, $validationResult['error']['info'], 'Numverify');
+                $db->saveErrorLog($phonenumber, $validationResult['error']['info'], 'Numverify', $tag_id);
             }
             sleep(2);
         }
@@ -160,8 +147,9 @@ if (isset($_POST["import"])) {
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
+            <li><a href="events.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Events</a></li>
             <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
-            <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
+            <li><a href="../index.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div>
     <!--/.sidebar-->
