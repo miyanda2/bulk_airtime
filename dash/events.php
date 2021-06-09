@@ -107,7 +107,10 @@ $data_source = new DataSource;
                                 <tr>
                                     <th scope="row"><?php echo $sn; ?></th>
                                     <td><?php echo $row['event']; ?></td>
-                                    <td><a href="process/delete.php?id=<?php echo $row['event']; ?>"><button class="btn btn-danger" type="submit" name="delete" type="submit">Delete</button></a></td>
+                                    <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                            Delete
+                                        </button>
+                                        <!-- <td><a href="process/delete.php?id=<?php echo $row['event']; ?>"><button class="btn btn-danger" type="submit" name="delete" type="submit">Delete</button></a></td> -->
 
                                 </tr>
                             <?php
@@ -121,6 +124,27 @@ $data_source = new DataSource;
                 </div>
         </div>
         <hr />
+
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you Sure?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <a href="process/delete.php?id=<?php echo $row['event']; ?>"><button class="btn btn-danger" type="submit" name="delete" type="submit">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <script src="js/jquery-1.11.1.min.js"></script>
@@ -165,30 +189,30 @@ $data_source = new DataSource;
                 //         return false;
                 //     }
 
-                $.ajax({
-                    url: 'process/ajaxGetEvents.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: '&event=' + selected_event,
-                    success: function(msg) {
-                        if (msg.type == 'success') {
-                            $('#disp_body').html(msg.message);
-                            $('#tblevent').DataTable({
-                                dom: 'Bfrtip',
-                                buttons: [
-                                    'excelHtml5',
-                                    'csvHtml5',
-                                    'pdfHtml5',
-                                ]
-                            });
-                        } else {
-                            alert(msg.message);
-                        }
-                    },
-                    error: function(x, e) {
-                        alert(formatErrorMessage(x, e));
-                    }
-                });
+                // $.ajax({
+                //     url: 'process/ajaxGetEvents.php',
+                //     type: 'POST',
+                //     dataType: 'json',
+                //     data: '&event=' + selected_event,
+                //     success: function(msg) {
+                //         if (msg.type == 'success') {
+                //             $('#disp_body').html(msg.message);
+                //             $('#tblevent').DataTable({
+                //                 dom: 'Bfrtip',
+                //                 buttons: [
+                //                     'excelHtml5',
+                //                     'csvHtml5',
+                //                     'pdfHtml5',
+                //                 ]
+                //             });
+                //         } else {
+                //             alert(msg.message);
+                //         }
+                //     },
+                //     error: function(x, e) {
+                //         alert(formatErrorMessage(x, e));
+                //     }
+                // });
 
             });
         </script>
