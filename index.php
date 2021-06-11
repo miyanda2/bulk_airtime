@@ -1,6 +1,46 @@
 <?php
-    include './functions.php';
+session_start();
+    include("functions.php");
+    include("connection.php");
+
+
+    if($_SERVER['REQUEST_METHOD'] == "POST")
+    {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        if(!empty($email) && !empty($password) )
+        {
+        
+            $query = "select * from user where email = '$email' limit 1";
+            $result = mysqli_query($con, $query);
+
+            if($result)
+            { 
+                if($result && mysqli_num_rows($result) > 0)
+                {
+                    
+                $user_data = mysqli_fetch_assoc($result);
+                if($user_data ['password'] === $password)
+                {
+                    $_SESSION['sn'] = $user_data['sn'];
+                    header("Location: dash/index2.php");
+            die;
+                }
+            }
+        }
+            
+        }
+        echo "Wrong email or password";
+     } else
+        {
+            echo "";
+        };
+    
+
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -29,16 +69,18 @@
 					<form method="POST" id="frmLogin">
 						<fieldset>
 							<div class="form-group">
-								<input class="form-control" placeholder="username" name="user" type="text" autofocus="">
+								<input class="form-control" placeholder="email" name="email" type="email" required/>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="pw" type="password" value="">
+								<input class="form-control" placeholder="Password" name="password" type="password" value="">
 							</div>
 							<div class="checkbox">
 								
 							</div>
 							
-							<button type="button" name= "btn" class="btn btn-primary" id="btnLogin">Login</button>
+							<a href="dash/index2.php"><button type="submit" name= "btn" class="btn btn-primary" id="btnLogin">Login</button></a>
+                               Dont have an account?
+        <a href="dash/register.php">Click to Signup</a><br><br>
 							 </fieldset>
 					</form>
 				</div>
@@ -53,58 +95,5 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script>
-
-        function formatErrorMessage(jqXHR, exception) 
-        {
-            if (jqXHR.status === 0) {
-                return ('Not connected.\nPlease verify your network connection.');
-            } else if (jqXHR.status == 404) {
-                return ('The requested page not found. [404]');
-            } else if (jqXHR.status == 500) {
-                return ('Internal Server Error [500].');
-            } else if (exception === 'parsererror') {
-                return ('Requested JSON parse failed.');
-            } else if (exception === 'timeout') {
-                return ('Time out error.');
-            } else if (exception === 'abort') {
-                return ('Ajax request aborted.');
-            } else {
-                return ('Uncaught Error.\n' + jqXHR.responseText);
-            }
-        }
-
-
-        $(document).on('click', '#btnLogin', function(e){
-            e.preventDefault();
-            var formData = $('#frmLogin').serialize();
-            var displayMessage = $('.errMsg');
-
-            swal("Please wait...");
-            displayMessage.html('<div class="alert alert-info mt-3 text-center" role="alert"> Please wait... </div>');
-
-            $.ajax({
-                async: true,
-                url: 'ajaxProcessLogin.php',
-                type: 'POST',
-                data: formData,
-                success: function (msg) {
-                    if(msg == 'success'){
-                        $('#frmLogin')[0].reset();
-                        swal("Good job!", "Login Successful.", "success");
-                        displayMessage.html('<div class="alert alert-success text-center" role="alert"> Login Successful. </div>');
-                        setTimeout((function(){ location.href = 'dash' }), 3000);
-                    }else{
-                        displayMessage.html('<div class="alert alert-danger text-center" role="alert"> '+msg+' </div>');
-                        swal("Oops!", ""+msg+"", "error");
-                    }
-                },
-                error: function(x,e) {            
-                    displayMessage.html('<div class="alert alert-danger text-center" role="alert"> '+formatErrorMessage(x, e)+' </div>');
-                    swal("Oops!", ""+formatErrorMessage(x, e)+"", "error");
-                }
-            })
-        });
-    </script>
 </body>
 </html>
