@@ -1,7 +1,8 @@
 <?php
 session_start();
     include("functions.php");
-    include("connection.php");
+    $db = new DataSource();
+$conn = $db->getConnection();
 
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
@@ -13,7 +14,7 @@ session_start();
         {
         
             $query = "select * from user where email = '$email' limit 1";
-            $result = mysqli_query($con, $query);
+            $result = mysqli_query($conn, $query);
 
             if($result)
             { 
@@ -24,7 +25,7 @@ session_start();
                 if($user_data ['password'] === $password)
                 {
                     $_SESSION['sn'] = $user_data['sn'];
-                    header("Location: dash/index2.php");
+                    header("Location: dash/index.php");
             die;
                 }
             }
@@ -72,7 +73,7 @@ session_start();
 								<input class="form-control" placeholder="email" name="email" type="email" required/>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="password" type="password" value="">
+								<input class="form-control" placeholder="Password" name="password" type="password" value="" required/>
 							</div>
 							<div class="checkbox">
 								

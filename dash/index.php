@@ -1,7 +1,8 @@
 <?php
 
 require_once '../functions.php';
-include("../connection.php");
+$db = new DataSource();
+$conn = $db->getConnection();
 
 
 

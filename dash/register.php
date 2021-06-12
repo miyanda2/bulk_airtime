@@ -1,7 +1,9 @@
 <?php
 session_start();
-    include("../connection.php");
+    
     include("../functions.php");
+$db = new DataSource();
+$conn = $db->getConnection();
 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
@@ -16,9 +18,9 @@ session_start();
             
             $query = "insert into user(name, username, email, phonenumber, password) value('$name', '$username', '$email', '$phonenumber', '$password')";
             
-            mysqli_query($con, $query);
+            mysqli_query($conn, $query);
 
-            header("Location: index2.php");
+            header("Location: index.php");
             die;
         }
         else
@@ -41,11 +43,12 @@ session_start();
         <title>signup</title>
         <link href="css/signup.css" rel="stylesheet" type="text/css">
     </head>
-    <body style="background-color:aliceblue;">
+    <body>
     <div id="box">
         <form method="post">
-        <div style="font-size: 20px; margin: 10px; color: white">Signup</div>
-        <input id="text" type="text" name="name" placeholder="Name" required/><br><br>
+        <div style="font-size: 20px; margin: 10px;">Sign up</div>
+            <hr/>
+        <input id="text" type="text" name="name" placeholder="Name" required/ autofocus><br><br>
             <input id="text" type="text" name="username" placeholder="Username" required/><br><br>
             <input id="text" type="email" name="email" placeholder="email" required/><br><br>
             <input id="text" type="number" name="phonenumber" placeholder="Phone Number" required/><br><br>
