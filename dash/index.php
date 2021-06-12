@@ -1,10 +1,6 @@
 <?php
 
 require_once '../functions.php';
-$db = new DataSource();
-$conn = $db->getConnection();
-
-
 
 
 $data_source = new DataSource;
@@ -54,7 +50,6 @@ $country_count_object = $data_source->countCountryNumbers();
                 <input type="text" class="form-control" placeholder="Search">
             </div>
         </form>
-
         <ul class="nav menu">
             <li class="active"><a href="index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
             <li><a href="numbers.php"><em class="fa fa-phone-square">&nbsp;</em> Numbers</a></li>
@@ -65,7 +60,6 @@ $country_count_object = $data_source->countCountryNumbers();
             <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../index.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
-        
     </div>
 
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
