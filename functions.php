@@ -1,5 +1,22 @@
 <?php
 
+function check_login($con){
+
+    if (isset($_SESSION['sn'])) {
+        $id = $_SESSION['sn'];
+        $query = "select * from user where name = '$sn' limit 1";
+        $result = mysqli_query($con, $query);
+        if($result && mysqli_num_rows($result) > 0){
+            $user_data = mysqli_fetch_assoc($result);
+            return $user_data;
+        }
+    }
+    header("Location: ./index2.php");
+    die;
+}
+
+
+
 require_once 'HmsSessionHandler.php';
 
 class DataSource
@@ -8,7 +25,7 @@ class DataSource
     const USERNAME = 'root';
     const PASSWORD = '';
     const DATABASENAME = 'airtime-dis';
-
+    
     private $conn;
     public $sessionHandler;
 

@@ -33,36 +33,13 @@ if (isset($_POST["send"])) {
     $phone_number = $db->getEventAirtimeList($tag, $country);
     $currency_code = $currency_code_object->currencyCode;
 
-<<<<<<< HEAD
-    // print_r($phone_number); exit;
-=======
     //print_r($phone_number); exit;
->>>>>>> 3bae6158c9508bdc14bf8ccfe761783b26cefa5f
 
     $recipients = [];
     $sent_counter = 0;
     $failed_counter = 0;
     $sms_message = $db->getMessage()->msg;
     $event_tag = $db->getEventById($tag);
-<<<<<<< HEAD
-
-    for ($i = 0; $i < count($phone_number); $i++) {
-
-
-        $recipients = [[
-            "phoneNumber"  => $phone_number[$i]['phone_number'],
-            "currencyCode" => $currency_code,
-            "amount"       => $amount
-        ]];
-
-        try {
-            // That's it, hit send and we'll take care of the rest
-            $results = $airtime->send([
-                "recipients" => $recipients
-
-            ]);
-
-=======
 
     for ($i = 0; $i < count($phone_number); $i++) {
 
@@ -84,7 +61,6 @@ if (isset($_POST["send"])) {
 
             ]);
 
->>>>>>> 3bae6158c9508bdc14bf8ccfe761783b26cefa5f
             $sms_message = str_replace('&&name', $phone_number[$i]['first_name'], $sms_message);
             $sms_message = str_replace('&&amount', $amount, $sms_message);
             $sms_message = str_replace('&&event', $event_tag, $sms_message);
@@ -142,8 +118,6 @@ if (isset($_POST["send"])) {
     }
 
     $response_message = '<div class="alert alert-info">' . $sent_counter . ' Airtime Sent Successfully. ' . $failed_counter . ' Failed</div>';
-<<<<<<< HEAD
-=======
 
 
     /*try {
@@ -157,7 +131,6 @@ if (isset($_POST["send"])) {
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }*/
->>>>>>> 3bae6158c9508bdc14bf8ccfe761783b26cefa5f
 }
 ?>
 <!DOCTYPE html>
@@ -210,10 +183,7 @@ if (isset($_POST["send"])) {
             <li><a href="airtime-prov.php"><em class="fa fa-bar-chart">&nbsp;</em>APIs</a></li>
             <li><a href="config-msg.php"><em class="fa fa-cogs">&nbsp;</em> Configure Message</a></li>
             <li class="active"><a href="send.php"><em class="fa fa-paper-plane-o">&nbsp;</em> Send Airtime</a></li>
-<<<<<<< HEAD
             <li><a href="events.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Events</a></li>
-=======
->>>>>>> 3bae6158c9508bdc14bf8ccfe761783b26cefa5f
             <li><a href="error.php"><em class="fa fa-exclamation-triangle">&nbsp;</em> Error Logs</a></li>
             <li><a href="../login.php"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
