@@ -48,10 +48,10 @@ $conn = $db->getConnection();
         <form method="post">
         <div style="font-size: 20px; margin: 10px;">Sign up</div>
             <hr/>
-        <input id="text" type="text" name="name" placeholder="Name" required/ autofocus><br><br>
-            <input id="text" type="text" name="username" placeholder="Username" required/><br><br>
+        <input id="text" type="text" name="name" placeholder="name" required/ autofocus><br><br>
+            <input id="text" type="text" name="username" placeholder="username" required/><br><br>
             <input id="text" type="email" name="email" placeholder="email" required/><br><br>
-            <input id="text" type="number" name="phonenumber" placeholder="Phone Number" required/><br><br>
+            <input id="text" type="number" name="phonenumber" placeholder="phone number" required/><br><br>
         <input id="text" type="password" name="password" placeholder="password" required/><br><br>
         <input id="button" type="submit" value="Signup"><br><br>
             Already have an account?
